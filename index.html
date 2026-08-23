@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CivicSense — Report Local Issues 📢✨</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #fffbf0;
+    --panel: #ffffff;
+    --panel-soft: #f4effa;
+    --border: #1e1e1e;
+    --ink: #1e1e1e;
+    --ink-dim: #6e6b7b;
+    --pop-pink: #ff85a2;
+    --pop-purple: #b5838d;
+    --pop-yellow: #fde24f;
+    --pop-blue: #a0c4ff;
+    --pop-green: #9bf6ff;
+    --mint: #caffbf;
+    --radius: 20px;
+    --shadow: 4px 4px 0px var(--border);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+  body {
+    background-color: var(--bg);
+    background-image: 
+      radial-gradient(#ffd6ff 10%, transparent 11%),
+      radial-gradient(#e7c6ff 10%, transparent 11%);
+    background-size: 36px 36px;
+    background-position: 0 0, 18px 18px;
+    color: var(--ink);
+    min-height: 100vh;
+    padding-bottom: 70px;
+    overflow-x: hidden;
+  }
+
+  .doodle { position: fixed; pointer-events: none; z-index: 1; font-size: 24px; opacity: 0.6; user-select: none; }
+  .doodle-1 { top: 30px; left: 20px; transform: rotate(-12deg); }
+  .doodle-2 { top: 120px; right: 25px; transform: rotate(15deg); }
+  .doodle-3 { bottom: 40px; left: 30px; transform: rotate(8deg); }
+  .doodle-4 { bottom: 80px; right: 20px; transform: rotate(-20deg); }
+
+  header {
+    background: #ffffff;
+    border-bottom: 3.5px solid var(--border);
+    padding: 16px 6%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    flex-wrap: wrap;
+    box-shadow: 0 4px 0px rgba(0,0,0,0.05);
+  }
+
+  .brand-block { display: flex; align-items: center; gap: 10px; }
+  .brand-block .name { font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: 26px; color: var(--ink); letter-spacing: -0.5px; }
+  .brand-block .sub { font-size: 11px; font-weight: 700; background: var(--pop-yellow); color: var(--border); padding: 3px 8px; border-radius: 12px; border: 2px solid var(--border); text-transform: uppercase; }
+
+  nav { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  nav button {
+    background: var(--panel-soft);
+    border: 2.5px solid var(--border);
+    border-radius: 14px;
+    color: var(--ink);
+    padding: 8px 16px;
+    cursor: pointer;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.15s ease;
+  }
+
+  nav button:hover { transform: translateY(-2px); box-shadow: 2px 2px 0px var(--border); }
+  nav button.active { background: var(--pop-pink); color: #fff; box-shadow: 3px 3px 0px var(--border); }
+
+  .score-seal {
+    font-family: 'Fredoka', sans-serif;
+    background: var(--mint);
+    border: 2.5px solid var(--border);
+    color: var(--border);
+    padding: 6px 16px;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 700;
+    box-shadow: 3px 3px 0px var(--border);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .container { width: 92%; max-width: 800px; margin: 36px auto; position: relative; z-index: 2; }
+
+  .card {
+    background: var(--panel);
+    border: 3.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 30px;
+    margin-bottom: 26px;
+    box-shadow: var(--shadow);
+  }
+
+  .card-heading { font-family: 'Fredoka', sans-serif; font-size: 26px; font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 10px; }
+  .card-sub { color: var(--ink-dim); font-size: 14px; margin-bottom: 24px; line-height: 1.5; font-weight: 500; }
+
+  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 26px; }
+
+  .stat-card {
+    background: #fff;
+    border: 3px solid var(--border);
+    padding: 16px 14px;
+    border-radius: 16px;
+    box-shadow: 3px 3px 0px var(--border);
+    text-align: center;
+  }
+  .stat-card h3 { font-family: 'Fredoka', sans-serif; font-size: 32px; font-weight: 700; color: var(--ink); }
+  .stat-card p { font-size: 11px; font-weight: 700; color: var(--ink-dim); text-transform: uppercase; margin-top: 4px; }
+
+  .field-num {
+    background: var(--pop-blue);
+    color: var(--border);
+    border: 1.5px solid var(--border);
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 800;
+    margin-right: 8px;
+  }
+
+  label { display: flex; align-items: center; font-size: 13px; font-weight: 700; color: var(--ink); margin: 20px 0 8px; font-family: 'Fredoka', sans-serif; }
+
+  input, select, textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2.5px solid var(--border);
+    border-radius: 14px;
+    font-size: 14px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 600;
+    background: #fff;
+    color: var(--ink);
+    outline: none;
+    transition: all 0.15s ease;
+  }
+
+  input:focus, select:focus, textarea:focus { box-shadow: 3px 3px 0px var(--border); background: #fff; }
+  input[type="file"] { font-size: 13px; padding: 10px; cursor: pointer; }
+  textarea { resize: vertical; }
+
+  ::placeholder { color: var(--ink-dim); opacity: 0.7; }
+
+  .btn {
+    border: 2.5px solid var(--border);
+    background: var(--pop-pink);
+    color: #fff;
+    padding: 14px 24px;
+    border-radius: 16px;
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 3px 3px 0px var(--border);
+  }
+
+  .btn:hover { transform: translateY(-2px); box-shadow: 5px 5px 0px var(--border); }
+  .btn:active { transform: translateY(0); box-shadow: 1px 1px 0px var(--border); }
+  .btn.secondary { background: #fff; color: var(--ink); }
+  .btn.success { background: var(--mint); color: var(--border); }
+  .btn.danger { background: #ff758f; color: #fff; }
+
+  .stamp {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    font-family: 'Fredoka', sans-serif;
+    border: 2px solid var(--border);
+    white-space: nowrap;
+    box-shadow: 2px 2px 0px var(--border);
+  }
+  .stamp-critical { background: #ff758f; color: #fff; }
+  .stamp-high { background: var(--pop-yellow); color: var(--border); }
+  .stamp-medium { background: var(--pop-blue); color: var(--border); }
+  .stamp-normal { background: var(--mint); color: var(--border); }
+  .stamp-pending { background: var(--pop-blue); color: var(--border); }
+  .stamp-progress { background: var(--pop-yellow); color: var(--border); }
+  .stamp-resolved { background: var(--mint); color: var(--border); }
+
+  .hidden { display: none !important; }
+
+  #preview { max-width: 160px; max-height: 160px; margin-top: 12px; border-radius: 14px; display: none; object-fit: cover; border: 2.5px solid var(--border); }
+
+  .report-card {
+    background: #fff;
+    border: 3px solid var(--border);
+    padding: 20px;
+    border-radius: 18px;
+    margin-top: 16px;
+    box-shadow: 3px 3px 0px var(--border);
+  }
+
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap; }
+  .card-cat { display: flex; align-items: center; gap: 8px; font-family: 'Fredoka', sans-serif; font-size: 16px; font-weight: 700; }
+  .ticket-no { font-size: 11px; font-weight: 700; color: var(--ink-dim); margin-top: 6px; }
+  .card-meta { font-size: 12px; font-weight: 600; color: var(--ink-dim); margin-top: 2px; }
+  .card-desc { font-size: 14px; margin-top: 10px; line-height: 1.5; color: var(--ink); font-weight: 500; }
+  .card-actions { display: flex; gap: 10px; margin-top: 16px; align-items: center; flex-wrap: wrap; }
+
+  .resolved-box {
+    margin-top: 14px;
+    padding: 12px;
+    border: 2px dashed var(--border);
+    border-radius: 14px;
+    background: var(--panel-soft);
+  }
+  .resolved-box img { max-width: 100%; height: auto; border-radius: 10px; border: 2px solid var(--border); margin-top: 8px; }
+
+  .duplicate-banner {
+    background: var(--pop-yellow);
+    border: 2px solid var(--border);
+    padding: 12px;
+    border-radius: 14px;
+    margin-top: 14px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .empty-state { color: var(--ink-dim); text-align: center; padding: 30px 10px; font-family: 'Fredoka', sans-serif; font-size: 15px; border: 2.5px dashed var(--border); border-radius: 18px; background: #fff; }
+
+  .modal { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 2000; }
+  .modalbox { background: #fff; border: 3.5px solid var(--border); padding: 30px; border-radius: 24px; width: 90%; max-width: 420px; box-shadow: 6px 6px 0px var(--border); }
+
+  .toast {
+    position: fixed; bottom: 26px; right: 26px;
+    background: #fff;
+    color: var(--ink);
+    border: 3px solid var(--border);
+    padding: 14px 22px;
+    border-radius: 16px;
+    font-weight: 700; font-size: 14px;
+    font-family: 'Fredoka', sans-serif;
+    display: none; z-index: 3000;
+    box-shadow: 4px 4px 0px var(--border);
+    animation: slideUp 0.25s ease;
+    max-width: 320px;
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(14px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  @media(max-width: 768px){
+    .grid-4, .grid-2 { grid-template-columns: 1fr; }
+    header { flex-direction: column; align-items: flex-start; gap: 14px; }
+    nav { gap: 8px; width: 100%; }
+    nav button { flex: 1; text-align: center; }
+    .doodle { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="doodle doodle-1">✏️</div>
+<div class="doodle doodle-2">🌟</div>
+<div class="doodle doodle-3">🎨</div>
+<div class="doodle doodle-4">⚡</div>
+
+<header>
+  <div class="brand-block">
+    <span class="name">CivicSense 📣</span>
+    <span class="sub">Fix Local Stuff</span>
+  </div>
+  <nav>
+    <button class="active" onclick="switchTab('reportTab')">Report 📝</button>
+    <button onclick="switchTab('feedTab')">Feed 👀</button>
+    <button onclick="openAdminModal()">Office 🛠️</button>
+  </nav>
+  <div class="score-seal">
+    <span id="badgeTitle">🌱 Novice</span> • ⚡ <span id="userPoints">0</span> pts
+  </div>
+</header>
+
+<main class="container">
+
+  <div class="grid-4">
+    <div class="stat-card"><h3 id="statTotal">0</h3><p>Total Filed</p></div>
+    <div class="stat-card"><h3 id="statCritical">0</h3><p>Critical 🚨</p></div>
+    <div class="stat-card"><h3 id="statPending">0</h3><p>Pending ⏳</p></div>
+    <div class="stat-card"><h3 id="statResolved">0</h3><p>Resolved 🎉</p></div>
+  </div>
+
+  <section id="reportTab" class="card">
+    <h2 class="card-heading">Drop a report on an issue 📢</h2>
+    <p class="card-sub">Let us know what's broken in your neighborhood and we'll route it straight to the team!</p>
+
+    <form id="reportForm">
+      <div class="grid-2">
+        <div>
+          <label><span class="field-num">1</span>Your Name (Optional) 👤</label>
+          <input id="userName" placeholder="e.g. Alex Smith">
+        </div>
+        <div>
+          <label><span class="field-num">2</span>Your Email (Optional) ✉️</label>
+          <input id="userEmail" type="email" placeholder="alex@example.com">
+        </div>
+      </div>
+
+      <label><span class="field-num">3</span>Photo Evidence 📸</label>
+      <input id="photo" type="file" accept="image/*" onchange="previewImage()">
+      <img id="preview" alt="Preview">
+
+      <label><span class="field-num">4</span>Category 🏷️</label>
+      <select id="category" onchange="checkDuplicates()" required>
+        <option value="">Choose a vibe/category…</option>
+        <option value="Roads & Potholes">🛣️ Roads &amp; Potholes</option>
+        <option value="Sanitation & Garbage">🧹 Sanitation &amp; Garbage</option>
+        <option value="Electrical & Lights">💡 Electrical &amp; Lights</option>
+        <option value="Water & Drainage">🚰 Water &amp; Drainage</option>
+        <option value="Public Safety Hazard">⚠️ Public Safety Hazard</option>
+      </select>
+
+      <div id="duplicateNotice" class="duplicate-banner hidden"></div>
+
+      <label><span class="field-num">5</span>Description 💬</label>
+      <textarea id="description" rows="3" placeholder="What's going on? Give us the details..." oninput="runAiAnalysis(this.value)" required></textarea>
+
+      <div style="margin-top: 10px; font-size: 13px; color: var(--ink-dim); display: flex; align-items: center; gap: 8px; font-weight: 700;">
+        <span>Threat Check:</span>
+        <span id="aiTag" class="stamp stamp-normal">Normal 🟢</span>
+      </div>
+
+      <label><span class="field-num">6</span>Location 📍</label>
+      <input id="locationName" placeholder="e.g. 5th Main Street, or hit auto-detect" required>
+
+      <div style="display: flex; gap: 10px; margin-top: 12px;">
+        <button type="button" class="btn secondary" style="width: 100%;" onclick="getGPSLocation()">
+          📍 Auto-detect My Spot
+        </button>
+      </div>
+
+      <input type="hidden" id="lat">
+      <input type="hidden" id="lng">
+
+      <button id="submitBtn" type="submit" class="btn" style="margin-top: 22px; width: 100%;">Submit & Grab +10 pts! 🚀</button>
+    </form>
+  </section>
+
+  <section id="feedTab" class="card hidden">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 20px;">
+      <h2 class="card-heading" style="margin-bottom: 0;">Community Feed 🌐</h2>
+      <select id="feedFilter" onchange="renderFeed()" style="width: 210px;">
+        <option value="ALL">✨ All categories</option>
+        <option value="Roads & Potholes">🛣️ Roads</option>
+        <option value="Sanitation & Garbage">🧹 Sanitation</option>
+        <option value="Electrical & Lights">💡 Electrical</option>
+        <option value="Water & Drainage">🚰 Water</option>
+        <option value="Public Safety Hazard">⚠️ Safety</option>
+      </select>
+    </div>
+    <div id="feedList"></div>
+  </section>
+
+  <section id="adminTab" class="card hidden">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 10px;">
+      <div>
+        <h2 class="card-heading" style="margin-bottom: 4px;">Officer Desk 🛠️</h2>
+        <p class="card-sub" style="margin-bottom: 0;">Review community reports and get things fixed!</p>
+      </div>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <button class="btn secondary" style="padding: 9px 14px; font-size: 12px;" onclick="exportDataJSON()">JSON 📄</button>
+        <button class="btn secondary" style="padding: 9px 14px; font-size: 12px;" onclick="exportDataCSV()">CSV 📊</button>
+        <button class="btn secondary" style="padding: 9px 14px; font-size: 12px;" onclick="logoutAdmin()">Log Out 👋</button>
+      </div>
+    </div>
+    <div id="adminList"></div>
+  </section>
+
+</main>
+
+<div id="loginModal" class="modal hidden">
+  <div class="modalbox">
+    <h2 style="font-family: 'Fredoka', sans-serif; font-size: 22px; font-weight: 700; margin-bottom: 6px;">Admin Access 🔒</h2>
+    <p style="color: var(--ink-dim); font-size: 13px; margin-bottom: 16px; font-weight: 600;">Sign in to handle reported tasks.</p>
+
+    <label style="margin-top: 6px;">Email</label>
+    <input id="adminEmail" type="email" placeholder="admin@example.com">
+
+    <label>Password</label>
+    <input id="adminPassword" type="password" placeholder="••••">
+
+    <div style="display: flex; gap: 10px; margin-top: 22px;">
+      <button class="btn" style="flex: 1;" onclick="loginAdmin()">Login 🔑</button>
+      <button class="btn secondary" style="flex: 1;" onclick="closeAdminModal()">Back ✖️</button>
+    </div>
+  </div>
+</div>
+
+<div id="resolveModal" class="modal hidden">
+  <div class="modalbox">
+    <h2 style="font-family: 'Fredoka', sans-serif; font-size: 20px; font-weight: 700; margin-bottom: 6px;">Mark Ticket Resolved 🎉</h2>
+    <p style="color: var(--ink-dim); font-size: 13px; margin-bottom: 14px;">Add an optional photo URL showing the completed fix.</p>
+    <label>Resolution Photo URL (Optional)</label>
+    <input id="resolvePhotoUrl" placeholder="https://example.com/fixed_photo.jpg">
+    <div style="display: flex; gap: 10px; margin-top: 20px;">
+      <button class="btn success" style="flex: 1;" onclick="confirmResolve()">Resolve Ticket</button>
+      <button class="btn secondary" style="flex: 1;" onclick="closeResolveModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = "https://epmsuqtllglizzxcixmm.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_OLII8hRKnJsFEf2yDJNkCA_8PW0zf8F";
+  const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  const WEB3FORMS_ACCESS_KEY = "YOUR_WEB3FORMS_KEY_HERE";
+  const RECIPIENT_EMAIL = "manjrekaryadnyesh13@gmail.com";
+
+  const CATEGORY_ICONS = {
+    "Roads & Potholes": "🛣️",
+    "Sanitation & Garbage": "🧹",
+    "Electrical & Lights": "💡",
+    "Water & Drainage": "🚰",
+    "Public Safety Hazard": "⚠️"
+  };
+  const DEFAULT_ICON = "📌";
+
+  let reports = [];
+  let userPoints = parseInt(localStorage.getItem("civic_v2_points")) || 0;
+  let currentAiUrgency = "NORMAL";
+  let isAdminLoggedIn = false;
+  let imageBase64 = null;
+  let resolvingTicketId = null;
+
+  updateUserBadge();
+
+  db.auth.getSession().then(({ data }) => {
+    isAdminLoggedIn = !!data?.session;
+  }).catch(e => console.error("Session check failed:", e && e.message ? e.message : e));
+
+  loadReports();
+
+  async function loadReports() {
+    try {
+      const { data, error } = await db
+        .from('reports')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      reports = data || [];
+      updateMetrics();
+    } catch(e) {
+      console.error(e);
+      toast("Load failed: " + (e && (e.message || e.details || e.hint) || JSON.stringify(e)));
+    }
+  }
+
+  function switchTab(tabId) {
+    document.querySelectorAll("nav button").forEach(b => b.classList.remove("active"));
+
+    const activeBtn = Array.from(document.querySelectorAll("nav button")).find(b => b.getAttribute('onclick') && b.getAttribute('onclick').includes(tabId));
+    if(activeBtn) activeBtn.classList.add("active");
+
+    ["reportTab", "feedTab", "adminTab"].forEach(id => {
+      const el = document.getElementById(id);
+      if(el) el.classList.add("hidden");
+    });
+
+    const target = document.getElementById(tabId);
+    if(target) target.classList.remove("hidden");
+
+    if (tabId === "feedTab") { loadReports().then(renderFeed); }
+    if (tabId === "adminTab") { loadReports().then(renderAdminDesk); }
+  }
+
+  function openAdminModal() {
+    if (isAdminLoggedIn) { switchTab('adminTab'); } 
+    else { document.getElementById("loginModal").classList.remove("hidden"); }
+  }
+
+  function closeAdminModal() { document.getElementById("loginModal").classList.add("hidden"); }
+
+  async function loginAdmin() {
+    const email = document.getElementById("adminEmail").value;
+    const password = document.getElementById("adminPassword").value;
+    const { data, error } = await db.auth.signInWithPassword({ email, password });
+
+    if (error) { toast("Invalid login details! ❌"); return; }
+
+    isAdminLoggedIn = true;
+    closeAdminModal();
+    switchTab("adminTab");
+    toast("Welcome back Admin! 👋");
+    document.getElementById("adminEmail").value = "";
+    document.getElementById("adminPassword").value = "";
+  }
+
+  async function logoutAdmin() {
+    await db.auth.signOut();
+    isAdminLoggedIn = false;
+    toast("Logged out! Bye bye 👋");
+    switchTab("reportTab");
+  }
+
+  function previewImage(){
+    const file = document.getElementById("photo").files[0];
+    const img = document.getElementById("preview");
+    if(file){
+      const reader = new FileReader();
+      reader.onload = function(e){
+        imageBase64 = e.target.result;
+        img.src = imageBase64;
+        img.style.display = "block";
+      };
+      reader.readAsDataURL(file);
+    } else {
+      imageBase64 = null;
+      img.style.display = "none";
+    }
+  }
+
+  function checkDuplicates() {
+    const cat = document.getElementById("category").value;
+    const notice = document.getElementById("duplicateNotice");
+    if (!cat) { notice.classList.add("hidden"); return; }
+
+    const existing = reports.filter(r => r.category === cat && r.status !== 'Resolved');
+    if (existing.length > 0) {
+      notice.innerHTML = `ℹ️ <strong>Heads up:</strong> There are currently ${existing.length} open report(s) in "${escapeHTML(cat)}". Check the Feed to see if yours was already reported!`;
+      notice.classList.remove("hidden");
+    } else {
+      notice.classList.add("hidden");
+    }
+    runAiAnalysis(document.getElementById("description").value);
+  }
+
+  function runAiAnalysis(text) {
+    const category = document.getElementById("category").value;
+    const lower = text.toLowerCase();
+    const criticalWords = ["fire", "wire", "flood", "spark", "accident", "danger", "burst", "collapse"];
+    const aiTag = document.getElementById("aiTag");
+
+    if (criticalWords.some(w => lower.includes(w))) {
+      currentAiUrgency = "CRITICAL";
+      aiTag.className = "stamp stamp-critical";
+      aiTag.innerHTML = "Critical 🚨";
+    } 
+    else if (category === "Roads & Potholes" || category === "Public Safety Hazard") {
+      currentAiUrgency = "HIGH";
+      aiTag.className = "stamp stamp-high";
+      aiTag.innerHTML = "High Urgency ⚠️";
+    } 
+    else if (category === "Electrical & Lights" || category === "Water & Drainage") {
+      currentAiUrgency = "MEDIUM";
+      aiTag.className = "stamp stamp-medium";
+      aiTag.innerHTML = "Medium Urgency ⚡";
+    } 
+    else {
+      currentAiUrgency = "NORMAL";
+      aiTag.className = "stamp stamp-normal";
+      aiTag.innerHTML = "Normal 🟢";
+    }
+  }
+
+  function getGPSLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        pos => {
+          const lat = pos.coords.latitude;
+          const lng = pos.coords.longitude;
+          document.getElementById("lat").value = lat;
+          document.getElementById("lng").value = lng;
+          document.getElementById("locationName").value = `GPS: ${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+          toast("Got your GPS coords! 📍");
+        },
+        () => fetchIPLocation()
+      );
+    } else { fetchIPLocation(); }
+  }
+
+  async function fetchIPLocation() {
+    try {
+      const res = await fetch('https://ipapi.co/json/');
+      const data = await res.json();
+      if (data.city && data.ip) {
+        document.getElementById("lat").value = data.latitude || '';
+        document.getElementById("lng").value = data.longitude || '';
+        document.getElementById("locationName").value = `${data.city}, ${data.region} (IP: ${data.ip})`;
+        toast("Location found via IP 🌐");
+      }
+    } catch(e) { toast("Couldn't auto-detect location!"); }
+  }
+
+  document.getElementById("reportForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const submitBtn = document.getElementById("submitBtn");
+    submitBtn.disabled = true;
+    submitBtn.innerText = "Submitting... ⏳";
+
+    const userName = document.getElementById("userName").value || "Anonymous";
+    const userEmail = document.getElementById("userEmail").value || "N/A";
+    const category = document.getElementById("category").value;
+    const description = document.getElementById("description").value;
+    const location = document.getElementById("locationName").value;
+    const lat = document.getElementById("lat").value;
+    const lng = document.getElementById("lng").value;
+
+    const newReport = {
+      reporter_name: userName,
+      reporter_email: userEmail,
+      category,
+      description,
+      location,
+      lat: lat ? parseFloat(lat) : null,
+      lng: lng ? parseFloat(lng) : null,
+      urgency: currentAiUrgency,
+      status: "Pending",
+      upvotes: 0
+    };
+
+    try {
+      const fileInput = document.getElementById("photo");
+      const file = fileInput.files[0];
+
+      if (file) {
+        const filePath = `${Date.now()}-${file.name}`;
+        const { error: uploadError } = await db.storage
+          .from('report-photos')
+          .upload(filePath, file);
+
+        if (uploadError) throw uploadError;
+
+        const { data: urlData } = db.storage
+          .from('report-photos')
+          .getPublicUrl(filePath);
+
+        newReport.image = urlData.publicUrl;
+      }
+
+      const { data: inserted, error } = await db.from('reports').insert(newReport).select().single();
+
+      if (error) throw error;
+
+      userPoints += 10;
+      savePoints();
+
+      if (WEB3FORMS_ACCESS_KEY && WEB3FORMS_ACCESS_KEY !== "YOUR_WEB3FORMS_KEY_HERE") {
+        try {
+          const fileInput = document.getElementById("photo");
+          const file = fileInput.files[0];
+          const formData = new FormData();
+          formData.append("access_key", WEB3FORMS_ACCESS_KEY);
+          formData.append("subject", `Civic Report #${inserted.id}: ${category} [${currentAiUrgency}]`);
+          formData.append("from_name", userName !== "Anonymous" ? userName : "CivicSense Portal");
+          formData.append("Recipient", RECIPIENT_EMAIL);
+          formData.append("Report ID", `#${inserted.id}`);
+          formData.append("Reporter Name", userName);
+          formData.append("Reporter Email", userEmail);
+          formData.append("Category", category);
+          formData.append("Threat Level", currentAiUrgency);
+          formData.append("Location/IP Details", location);
+          formData.append("Coordinates", lat && lng ? `${lat}, ${lng}` : "None");
+          formData.append("Description", description);
+          if (file) formData.append("attachment", file);
+          fetch("https://api.web3forms.com/submit", { method: "POST", body: formData }).catch(console.error);
+        } catch(err) { console.error("Email notification skipped:", err); }
+      }
+
+      toast("Report dropped! +10 Points 💫");
+
+      this.reset();
+      document.getElementById("preview").style.display = "none";
+      document.getElementById("duplicateNotice").classList.add("hidden");
+      document.getElementById("aiTag").className = "stamp stamp-normal";
+      document.getElementById("aiTag").innerHTML = "Normal 🟢";
+      imageBase64 = null;
+
+      switchTab("feedTab");
+
+    } catch(err) {
+      console.error(err);
+      toast("Submit failed: " + (err && (err.message || err.details || err.hint) || JSON.stringify(err)));
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.innerText = "Submit & Grab +10 pts! 🚀";
+    }
+  });
+
+  function urgencyStampClass(urgency) {
+    if (urgency === 'CRITICAL') return 'stamp-critical';
+    if (urgency === 'HIGH') return 'stamp-high';
+    if (urgency === 'MEDIUM') return 'stamp-medium';
+    return 'stamp-normal';
+  }
+
+  function statusStampClass(status) {
+    return status === 'Resolved' ? 'stamp-resolved' : (status === 'In Progress' ? 'stamp-progress' : 'stamp-pending');
+  }
+
+  function renderFeed() {
+    const list = document.getElementById("feedList");
+    const filter = document.getElementById("feedFilter").value;
+    list.innerHTML = "";
+
+    const filtered = filter === "ALL" ? reports : reports.filter(r => r.category === filter);
+
+    if (filtered.length === 0) {
+      list.innerHTML = `<p class="empty-state">No reports found here yet! 🎉</p>`;
+      return;
+    }
+
+    filtered.forEach(r => {
+      const icon = CATEGORY_ICONS[r.category] || DEFAULT_ICON;
+      const card = document.createElement("div");
+      card.className = "report-card";
+      
+      let resolvedMarkup = '';
+      if (r.status === 'Resolved' && r.resolved_photo_url) {
+        resolvedMarkup = `
+          <div class="resolved-box">
+            <strong>📸 Verification / Fix Proof:</strong><br>
+            <img src="${escapeHTML(r.resolved_photo_url)}" alt="Resolution Proof">
+          </div>
+        `;
+      }
+
+      card.innerHTML = `
+        <div class="card-top">
+          <div class="card-cat"><span>${icon}</span><span>${escapeHTML(r.category)}</span></div>
+          <span class="stamp ${urgencyStampClass(r.urgency)}">${r.urgency}</span>
+        </div>
+        <div class="ticket-no">Ticket #${r.id} • By: ${escapeHTML(r.reporter_name || 'Anonymous')}</div>
+        <p class="card-meta">📍 ${escapeHTML(r.location)} • ${new Date(r.created_at).toLocaleDateString()}</p>
+        <p class="card-desc">${escapeHTML(r.description)}</p>
+        ${r.image ? `<img src="${escapeHTML(r.image)}" class="report-img" alt="Evidence" style="max-width:100%;border-radius:12px;margin-top:10px;">` : ''}
+        ${resolvedMarkup}
+        <div class="card-actions">
+          <button class="btn secondary" style="padding: 8px 16px; font-size: 12px;" onclick="upvote(${r.id})">Upvote 👍 (${r.upvotes})</button>
+          <span class="stamp ${statusStampClass(r.status)}">${r.status}</span>
+        </div>
+      `;
+      list.appendChild(card);
+    });
+  }
+
+  function renderAdminDesk() {
+    const list = document.getElementById("adminList");
+    list.innerHTML = "";
+
+    if (reports.length === 0) {
+      list.innerHTML = `<p class="empty-state">No tickets in queue! All clear ✨</p>`;
+      return;
+    }
+
+    reports.forEach(r => {
+      const icon = CATEGORY_ICONS[r.category] || DEFAULT_ICON;
+      const card = document.createElement("div");
+      card.className = "report-card";
+      card.innerHTML = `
+        <div class="card-top">
+          <div class="card-cat"><span>${icon}</span><span>${escapeHTML(r.category)}</span></div>
+          <div style="display: flex; gap: 6px; align-items: center;">
+            <span class="stamp ${urgencyStampClass(r.urgency)}">${r.urgency}</span>
+            <span class="stamp ${statusStampClass(r.status)}">${r.status}</span>
+          </div>
+        </div>
+        <div class="ticket-no">Ticket #${r.id} • Reporter: ${escapeHTML(r.reporter_name || 'Anonymous')} (${escapeHTML(r.reporter_email || 'N/A')})</div>
+        <p class="card-meta">📍 ${escapeHTML(r.location)}</p>
+        <p class="card-desc">${escapeHTML(r.description)}</p>
+        ${r.image ? `<img src="${escapeHTML(r.image)}" class="report-img" alt="Evidence" style="max-width:100%;border-radius:12px;margin-top:10px;">` : ''}
+        <div class="card-actions">
+          <button class="btn secondary" style="padding: 8px 14px; font-size: 12px;" onclick="updateStatus(${r.id}, 'In Progress')">In Progress ⏳</button>
+          <button class="btn success" style="padding: 8px 14px; font-size: 12px;" onclick="openResolveModal(${r.id})">Resolve 🎉</button>
+          <button class="btn danger" style="padding: 8px 14px; font-size: 12px;" onclick="deleteReport(${r.id})">Delete 🗑️</button>
+        </div>
+      `;
+      list.appendChild(card);
+    });
+  }
+
+  function openResolveModal(id) {
+    resolvingTicketId = id;
+    document.getElementById("resolvePhotoUrl").value = "";
+    document.getElementById("resolveModal").classList.remove("hidden");
+  }
+
+  function closeResolveModal() {
+    resolvingTicketId = null;
+    document.getElementById("resolveModal").classList.add("hidden");
+  }
+
+  async function confirmResolve() {
+    if (!resolvingTicketId) return;
+    const photoUrl = document.getElementById("resolvePhotoUrl").value.trim();
+
+    const payload = { status: 'Resolved' };
+    if (photoUrl) payload.resolved_photo_url = photoUrl;
+
+    const { error } = await db.from('reports').update(payload).eq('id', resolvingTicketId);
+
+    if (error) { toast("Failed to resolve ticket!"); return; }
+
+    userPoints += 15;
+    savePoints();
+    closeResolveModal();
+    await loadReports();
+    renderAdminDesk();
+    toast("Status set to Resolved! 🎉");
+  }
+
+  function exportDataJSON() {
+    if (!reports.length) { toast("No data to export!"); return; }
+    const blob = new Blob([JSON.stringify(reports, null, 2)], { type: "application/json" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "civic_reports.json";
+    link.click();
+    toast("Exported JSON! 📄");
+  }
+
+  function exportDataCSV() {
+    if (!reports.length) { toast("No report data to export!"); return; }
+    const headers = ["ID", "Name", "Email", "Category", "Description", "Location", "Latitude", "Longitude", "Urgency", "Status", "Upvotes", "Date"];
+    const rows = reports.map(r => [
+      r.id,
+      `"${(r.reporter_name || '').replace(/"/g, '""')}"`,
+      `"${(r.reporter_email || '').replace(/"/g, '""')}"`,
+      `"${(r.category || '').replace(/"/g, '""')}"`,
+      `"${(r.description || '').replace(/"/g, '""')}"`,
+      `"${(r.location || '').replace(/"/g, '""')}"`,
+      r.lat || '',
+      r.lng || '',
+      r.urgency || '',
+      r.status || '',
+      r.upvotes || 0,
+      `"${r.created_at ? new Date(r.created_at).toLocaleDateString() : ''}"`
+    ]);
+
+    const csvContent = "\uFEFF" + [headers.join(","), ...rows.map(e => e.join(","))].join("\n");
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "civic_reports_data.csv";
+    link.click();
+    toast("Exported CSV! 📊");
+  }
+
+  async function upvote(id) {
+    const r = reports.find(item => item.id === id);
+    if (!r) return;
+    const { error } = await db.from('reports').update({ upvotes: r.upvotes + 1 }).eq('id', id);
+    if (error) { console.error(error); toast("Upvote failed: " + (error.message || JSON.stringify(error))); return; }
+    await loadReports();
+    renderFeed();
+  }
+
+  async function updateStatus(id, newStatus) {
+    const { error } = await db.from('reports').update({ status: newStatus }).eq('id', id);
+
+    if (error) { toast("Update failed!"); return; }
+
+    await loadReports();
+    renderAdminDesk();
+    toast(`Status set to ${newStatus}! ✨`);
+  }
+
+  async function deleteReport(id) {
+    if (!confirm("Are you sure you want to remove this report?")) return;
+    const { error } = await db.from('reports').delete().eq('id', id);
+    if (error) { toast("Delete failed!"); return; }
+    await loadReports();
+    renderAdminDesk();
+    toast("Report removed! 🗑️");
+  }
+
+  function updateMetrics() {
+    document.getElementById("statTotal").innerText = reports.length;
+    document.getElementById("statCritical").innerText = reports.filter(r => r.urgency === "CRITICAL").length;
+    document.getElementById("statPending").innerText = reports.filter(r => r.status === "Pending").length;
+    document.getElementById("statResolved").innerText = reports.filter(r => r.status === "Resolved").length;
+  }
+
+  function updateUserBadge() {
+    const badgeEl = document.getElementById("badgeTitle");
+    if (userPoints >= 100) { badgeEl.innerText = "👑 City Legend"; }
+    else if (userPoints >= 50) { badgeEl.innerText = "🛡️ Local Hero"; }
+    else if (userPoints >= 20) { badgeEl.innerText = "⭐ Scout"; }
+    else { badgeEl.innerText = "🌱 Novice"; }
+  }
+
+  function savePoints() {
+    localStorage.setItem("civic_v2_points", userPoints.toString());
+    document.getElementById("userPoints").innerText = userPoints;
+    updateUserBadge();
+  }
+
+  function toast(msg) {
+    const t = document.getElementById("toast");
+    t.innerHTML = msg;
+    t.style.display = "block";
+    setTimeout(() => t.style.display = "none", 2800);
+  }
+
+  function escapeHTML(str){
+    return String(str).replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#039;'}[m]));
+  }
+</script>
+</body>
+</html>
