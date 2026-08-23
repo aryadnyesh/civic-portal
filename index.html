@@ -3,2728 +3,917 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CivicSense — Report Local Issues 📢✨</title>
 
-<title>CivicSense AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
 
 <style>
-:root{
-    --primary:#2563eb;
-    --primary-dark:#1d4ed8;
-    --bg:#f5f7fb;
-    --card:#ffffff;
-    --text:#172033;
-    --muted:#667085;
-    --border:#e5e7eb;
-    --green:#16a34a;
-    --orange:#d97706;
-    --red:#dc2626;
-    --shadow:0 10px 30px rgba(15,23,42,.07);
-}
-
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-}
-
-body{
-    font-family:Inter,Segoe UI,Arial,sans-serif;
-    background:var(--bg);
-    color:var(--text);
-}
-
-button,input,textarea,select{
-    font:inherit;
-}
-
-button{
-    cursor:pointer;
-}
-
-/* NAVBAR */
-
-header{
-    position:sticky;
-    top:0;
-    z-index:100;
-    background:rgba(255,255,255,.94);
-    backdrop-filter:blur(12px);
-    border-bottom:1px solid var(--border);
-}
-
-.navbar{
-    max-width:1200px;
-    margin:auto;
-    padding:13px 20px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-.brand{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    font-size:21px;
-    font-weight:850;
-}
-
-.logo{
-    width:40px;
-    height:40px;
-    display:grid;
-    place-items:center;
-    border-radius:12px;
-    background:var(--primary);
-    color:white;
-    font-size:13px;
-}
-
-.brand span{
-    color:var(--primary);
-}
-
-nav{
-    display:flex;
-    gap:5px;
-}
-
-nav button{
-    border:0;
-    background:transparent;
-    color:var(--muted);
-    padding:9px 11px;
-    border-radius:9px;
-    font-weight:750;
-}
-
-nav button:hover,
-nav button.active{
-    color:var(--primary);
-    background:#eff6ff;
-}
-
-/* PAGE */
-
-.page{
-    display:none;
-    max-width:1200px;
-    margin:auto;
-    padding:35px 20px 60px;
-}
-
-.page.active{
-    display:block;
-}
-
-/* HERO */
-
-.hero{
-    min-height:540px;
-    display:grid;
-    grid-template-columns:1.2fr .8fr;
-    gap:35px;
-    align-items:center;
-}
-
-.badge{
-    display:inline-block;
-    background:#dbeafe;
-    color:#1d4ed8;
-    padding:8px 12px;
-    border-radius:30px;
-    font-size:12px;
-    font-weight:850;
-}
-
-.hero h1{
-    font-size:clamp(42px,6vw,68px);
-    line-height:.98;
-    margin:18px 0;
-}
-
-.hero h1 span{
-    color:var(--primary);
-}
-
-.hero-text{
-    max-width:680px;
-    color:var(--muted);
-    font-size:18px;
-    line-height:1.65;
-}
-
-.buttons{
-    display:flex;
-    flex-wrap:wrap;
-    gap:11px;
-    margin-top:24px;
-}
-
-.btn{
-    border:0;
-    padding:12px 17px;
-    border-radius:11px;
-    font-weight:800;
-}
-
-.primary{
-    color:white;
-    background:var(--primary);
-}
-
-.primary:hover{
-    background:var(--primary-dark);
-}
-
-.secondary{
-    color:#1d4ed8;
-    background:#eaf0ff;
-}
-
-.outline{
-    background:white;
-    color:var(--text);
-    border:1px solid var(--border);
-}
-
-.card{
-    background:var(--card);
-    border:1px solid var(--border);
-    border-radius:18px;
-    box-shadow:var(--shadow);
-    padding:23px;
-}
-
-/* HOW IT WORKS */
-
-.flow{
-    display:grid;
-    gap:11px;
-    margin-top:18px;
-}
-
-.flow-item{
-    padding:14px;
-    border:1px solid var(--border);
-    border-radius:12px;
-    font-weight:750;
-}
-
-/* FEATURES */
-
-.section-title{
-    margin:30px 0 18px;
-}
-
-.section-title h2{
-    margin-bottom:6px;
-}
-
-.section-title p{
-    color:var(--muted);
-}
-
-.features{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:17px;
-}
-
-.feature{
-    min-height:175px;
-}
-
-.icon{
-    font-size:28px;
-    margin-bottom:12px;
-}
-
-.feature p{
-    color:var(--muted);
-    line-height:1.5;
-    margin-top:8px;
-}
-
-/* FORM */
-
-.form-card{
-    max-width:850px;
-    margin:auto;
-}
-
-.field{
-    margin-bottom:18px;
-}
-
-label{
-    display:block;
-    font-weight:800;
-    margin-bottom:7px;
-}
-
-input,
-select,
-textarea{
-    width:100%;
-    border:1px solid #d5dae4;
-    background:white;
-    border-radius:11px;
-    padding:12px;
-    outline:none;
-}
-
-input:focus,
-select:focus,
-textarea:focus{
-    border-color:var(--primary);
-}
-
-textarea{
-    min-height:115px;
-    resize:vertical;
-}
-
-.upload{
-    border:2px dashed #cbd5e1;
-    border-radius:14px;
-    padding:22px;
-    text-align:center;
-    background:#f8fafc;
-}
-
-#preview{
-    display:none;
-    max-width:100%;
-    max-height:280px;
-    margin:15px auto 0;
-    border-radius:12px;
-}
-
-.location-row{
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
-.location-text{
-    color:var(--muted);
-    font-size:13px;
-}
-
-/* AI BOX */
-
-.ai-box{
-    display:none;
-    margin:20px 0;
-    padding:17px;
-    background:#eff6ff;
-    border:1px solid #bfdbfe;
-    border-radius:14px;
-}
-
-.ai-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:10px;
-}
-
-.ai-status{
-    font-size:12px;
-    font-weight:bold;
-    color:#1d4ed8;
-}
-
-.ai-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:10px;
-    margin-top:13px;
-}
-
-.metric{
-    padding:13px;
-    border-radius:11px;
-    background:white;
-}
-
-.metric small{
-    color:var(--muted);
-}
-
-.metric strong{
-    display:block;
-    margin-top:5px;
-}
-
-.ai-explanation{
-    margin-top:13px;
-    padding:12px;
-    background:white;
-    border-radius:10px;
-    color:var(--muted);
-    line-height:1.5;
-    font-size:14px;
-}
-
-/* TRACK */
-
-.track-card{
-    max-width:850px;
-    margin:auto;
-}
-
-.track-search{
-    display:grid;
-    grid-template-columns:1fr auto;
-    gap:10px;
-}
-
-.timeline{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:8px;
-    margin-top:20px;
-}
-
-.step{
-    background:#f1f5f9;
-    padding:13px;
-    text-align:center;
-    border-radius:10px;
-    font-weight:750;
-}
-
-.step.done{
-    background:#dbeafe;
-    color:#1d4ed8;
-}
-
-.track-info{
-    margin-top:18px;
-    color:var(--muted);
-    line-height:1.7;
-}
-
-/* DASHBOARD */
-
-.dashboard-head{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:15px;
-    flex-wrap:wrap;
-}
-
-.stats{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:14px;
-    margin:20px 0;
-}
-
-.stat h2{
-    font-size:30px;
-}
-
-.stat p{
-    color:var(--muted);
-    margin-top:4px;
-}
-
-.toolbar{
-    display:grid;
-    grid-template-columns:1.5fr 1fr 1fr;
-    gap:10px;
-    margin-bottom:15px;
-}
-
-.table-wrap{
-    overflow:auto;
-}
-
-table{
-    width:100%;
-    min-width:850px;
-    border-collapse:collapse;
-}
-
-th,
-td{
-    text-align:left;
-    padding:13px;
-    border-bottom:1px solid var(--border);
-}
-
-th{
-    color:var(--muted);
-    font-size:12px;
-}
-
-td{
-    font-size:14px;
-}
-
-.status{
-    display:inline-block;
-    padding:5px 9px;
-    border-radius:20px;
-    font-size:12px;
-    font-weight:850;
-}
-
-.status-reported{
-    background:#fef3c7;
-    color:#92400e;
-}
-
-.status-assigned{
-    background:#dbeafe;
-    color:#1e40af;
-}
-
-.status-progress{
-    background:#ede9fe;
-    color:#6d28d9;
-}
-
-.status-resolved{
-    background:#dcfce7;
-    color:#166534;
-}
-
-.priority-high{
-    color:var(--red);
-    font-weight:850;
-}
-
-.priority-medium{
-    color:var(--orange);
-    font-weight:850;
-}
-
-.priority-low{
-    color:var(--green);
-    font-weight:850;
-}
-
-/* MAP */
-
-.map{
-    height:350px;
-    position:relative;
-    overflow:hidden;
-    border-radius:18px;
-    background:#dce7d7;
-    background-image:
-        linear-gradient(#ffffff88 1px,transparent 1px),
-        linear-gradient(90deg,#ffffff88 1px,transparent 1px);
-    background-size:50px 50px;
-}
-
-.pin{
-    position:absolute;
-    font-size:28px;
-    z-index:2;
-}
-
-/* LOADING */
-
-.loading{
-    display:none;
-    text-align:center;
-    padding:18px;
-    color:var(--muted);
-}
-
-/* EMPTY */
-
-.empty{
-    text-align:center;
-    padding:30px;
-    color:var(--muted);
-}
-
-/* TOAST */
-
-.toast{
-    display:none;
-    position:fixed;
-    right:20px;
-    bottom:20px;
-    z-index:999;
-    color:white;
-    background:#111827;
-    padding:13px 17px;
-    border-radius:12px;
-    box-shadow:var(--shadow);
-}
-
-/* FOOTER */
-
-footer{
-    text-align:center;
-    padding:35px;
-    color:var(--muted);
-}
-
-/* MOBILE */
-
-@media(max-width:800px){
-
-    .navbar{
-        flex-direction:column;
-        gap:10px;
-    }
-
-    nav{
-        width:100%;
-        justify-content:center;
-    }
-
-    .hero{
-        grid-template-columns:1fr;
-    }
-
-    .features{
-        grid-template-columns:1fr;
-    }
-
-    .stats{
-        grid-template-columns:1fr 1fr;
-    }
-
-    .ai-grid{
-        grid-template-columns:1fr;
-    }
-
-    .toolbar{
-        grid-template-columns:1fr;
-    }
-
-    .track-search{
-        grid-template-columns:1fr;
-    }
-
-    .timeline{
-        grid-template-columns:1fr 1fr;
-    }
-
-    .location-row{
-        flex-direction:column;
-        align-items:flex-start;
-    }
-
-}
+  :root {
+    --bg: #fffbf0;
+    --panel: #ffffff;
+    --panel-soft: #f4effa;
+    --border: #1e1e1e;
+    --ink: #1e1e1e;
+    --ink-dim: #6e6b7b;
+    --pop-pink: #ff85a2;
+    --pop-purple: #b5838d;
+    --pop-yellow: #fde24f;
+    --pop-blue: #a0c4ff;
+    --pop-green: #9bf6ff;
+    --mint: #caffbf;
+    --radius: 20px;
+    --shadow: 4px 4px 0px var(--border);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+  body {
+    background-color: var(--bg);
+    background-image: 
+      radial-gradient(#ffd6ff 10%, transparent 11%),
+      radial-gradient(#e7c6ff 10%, transparent 11%);
+    background-size: 36px 36px;
+    background-position: 0 0, 18px 18px;
+    color: var(--ink);
+    min-height: 100vh;
+    padding-bottom: 70px;
+    overflow-x: hidden;
+  }
+
+  .doodle { position: fixed; pointer-events: none; z-index: 1; font-size: 24px; opacity: 0.6; user-select: none; }
+  .doodle-1 { top: 30px; left: 20px; transform: rotate(-12deg); }
+  .doodle-2 { top: 120px; right: 25px; transform: rotate(15deg); }
+  .doodle-3 { bottom: 40px; left: 30px; transform: rotate(8deg); }
+  .doodle-4 { bottom: 80px; right: 20px; transform: rotate(-20deg); }
+
+  header {
+    background: #ffffff;
+    border-bottom: 3.5px solid var(--border);
+    padding: 16px 6%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    flex-wrap: wrap;
+    box-shadow: 0 4px 0px rgba(0,0,0,0.05);
+  }
+
+  .brand-block { display: flex; align-items: center; gap: 10px; }
+  .brand-block .name { font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: 26px; color: var(--ink); letter-spacing: -0.5px; }
+  .brand-block .sub { font-size: 11px; font-weight: 700; background: var(--pop-yellow); color: var(--border); padding: 3px 8px; border-radius: 12px; border: 2px solid var(--border); text-transform: uppercase; }
+
+  nav { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  nav button {
+    background: var(--panel-soft);
+    border: 2.5px solid var(--border);
+    border-radius: 14px;
+    color: var(--ink);
+    padding: 8px 16px;
+    cursor: pointer;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.15s ease;
+  }
+
+  nav button:hover { transform: translateY(-2px); box-shadow: 2px 2px 0px var(--border); }
+  nav button.active { background: var(--pop-pink); color: #fff; box-shadow: 3px 3px 0px var(--border); }
+
+  .score-seal {
+    font-family: 'Fredoka', sans-serif;
+    background: var(--mint);
+    border: 2.5px solid var(--border);
+    color: var(--border);
+    padding: 6px 16px;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 700;
+    box-shadow: 3px 3px 0px var(--border);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .container { width: 92%; max-width: 800px; margin: 36px auto; position: relative; z-index: 2; }
+
+  .card {
+    background: var(--panel);
+    border: 3.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 30px;
+    margin-bottom: 26px;
+    box-shadow: var(--shadow);
+  }
+
+  .card-heading { font-family: 'Fredoka', sans-serif; font-size: 26px; font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 10px; }
+  .card-sub { color: var(--ink-dim); font-size: 14px; margin-bottom: 24px; line-height: 1.5; font-weight: 500; }
+
+  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 26px; }
+
+  .stat-card {
+    background: #fff;
+    border: 3px solid var(--border);
+    padding: 16px 14px;
+    border-radius: 16px;
+    box-shadow: 3px 3px 0px var(--border);
+    text-align: center;
+  }
+  .stat-card h3 { font-family: 'Fredoka', sans-serif; font-size: 32px; font-weight: 700; color: var(--ink); }
+  .stat-card p { font-size: 11px; font-weight: 700; color: var(--ink-dim); text-transform: uppercase; margin-top: 4px; }
+
+  .field-num {
+    background: var(--pop-blue);
+    color: var(--border);
+    border: 1.5px solid var(--border);
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 800;
+    margin-right: 8px;
+  }
+
+  label { display: flex; align-items: center; font-size: 13px; font-weight: 700; color: var(--ink); margin: 20px 0 8px; font-family: 'Fredoka', sans-serif; }
+
+  input, select, textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2.5px solid var(--border);
+    border-radius: 14px;
+    font-size: 14px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 600;
+    background: #fff;
+    color: var(--ink);
+    outline: none;
+    transition: all 0.15s ease;
+  }
+
+  input:focus, select:focus, textarea:focus { box-shadow: 3px 3px 0px var(--border); background: #fff; }
+  input[type="file"] { font-size: 13px; padding: 10px; cursor: pointer; }
+  textarea { resize: vertical; }
+
+  ::placeholder { color: var(--ink-dim); opacity: 0.7; }
+
+  .btn {
+    border: 2.5px solid var(--border);
+    background: var(--pop-pink);
+    color: #fff;
+    padding: 14px 24px;
+    border-radius: 16px;
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 3px 3px 0px var(--border);
+  }
+
+  .btn:hover { transform: translateY(-2px); box-shadow: 5px 5px 0px var(--border); }
+  .btn:active { transform: translateY(0); box-shadow: 1px 1px 0px var(--border); }
+  .btn.secondary { background: #fff; color: var(--ink); }
+  .btn.success { background: var(--mint); color: var(--border); }
+  .btn.danger { background: #ff758f; color: #fff; }
+
+  .stamp {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    font-family: 'Fredoka', sans-serif;
+    border: 2px solid var(--border);
+    white-space: nowrap;
+    box-shadow: 2px 2px 0px var(--border);
+  }
+  .stamp-critical { background: #ff758f; color: #fff; }
+  .stamp-high { background: var(--pop-yellow); color: var(--border); }
+  .stamp-medium { background: var(--pop-blue); color: var(--border); }
+  .stamp-normal { background: var(--mint); color: var(--border); }
+  .stamp-pending { background: var(--pop-blue); color: var(--border); }
+  .stamp-progress { background: var(--pop-yellow); color: var(--border); }
+  .stamp-resolved { background: var(--mint); color: var(--border); }
+
+  .hidden { display: none !important; }
+
+  #preview { max-width: 160px; max-height: 160px; margin-top: 12px; border-radius: 14px; display: none; object-fit: cover; border: 2.5px solid var(--border); }
+
+  .report-card {
+    background: #fff;
+    border: 3px solid var(--border);
+    padding: 20px;
+    border-radius: 18px;
+    margin-top: 16px;
+    box-shadow: 3px 3px 0px var(--border);
+  }
+
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap; }
+  .card-cat { display: flex; align-items: center; gap: 8px; font-family: 'Fredoka', sans-serif; font-size: 16px; font-weight: 700; }
+  .ticket-no { font-size: 11px; font-weight: 700; color: var(--ink-dim); margin-top: 6px; }
+  .card-meta { font-size: 12px; font-weight: 600; color: var(--ink-dim); margin-top: 2px; }
+  .card-desc { font-size: 14px; margin-top: 10px; line-height: 1.5; color: var(--ink); font-weight: 500; }
+  .card-actions { display: flex; gap: 10px; margin-top: 16px; align-items: center; flex-wrap: wrap; }
+
+  .resolved-box {
+    margin-top: 14px;
+    padding: 12px;
+    border: 2px dashed var(--border);
+    border-radius: 14px;
+    background: var(--panel-soft);
+  }
+  .resolved-box img { max-width: 100%; height: auto; border-radius: 10px; border: 2px solid var(--border); margin-top: 8px; }
+
+  .duplicate-banner {
+    background: var(--pop-yellow);
+    border: 2px solid var(--border);
+    padding: 12px;
+    border-radius: 14px;
+    margin-top: 14px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .empty-state { color: var(--ink-dim); text-align: center; padding: 30px 10px; font-family: 'Fredoka', sans-serif; font-size: 15px; border: 2.5px dashed var(--border); border-radius: 18px; background: #fff; }
+
+  .modal { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 2000; }
+  .modalbox { background: #fff; border: 3.5px solid var(--border); padding: 30px; border-radius: 24px; width: 90%; max-width: 420px; box-shadow: 6px 6px 0px var(--border); }
+
+  .toast {
+    position: fixed; bottom: 26px; right: 26px;
+    background: #fff;
+    color: var(--ink);
+    border: 3px solid var(--border);
+    padding: 14px 22px;
+    border-radius: 16px;
+    font-weight: 700; font-size: 14px;
+    font-family: 'Fredoka', sans-serif;
+    display: none; z-index: 3000;
+    box-shadow: 4px 4px 0px var(--border);
+    animation: slideUp 0.25s ease;
+    max-width: 320px;
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(14px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  @media(max-width: 768px){
+    .grid-4, .grid-2 { grid-template-columns: 1fr; }
+    header { flex-direction: column; align-items: flex-start; gap: 14px; }
+    nav { gap: 8px; width: 100%; }
+    nav button { flex: 1; text-align: center; }
+    .doodle { display: none; }
+  }
 </style>
 </head>
-
 <body>
 
+<div class="doodle doodle-1">✏️</div>
+<div class="doodle doodle-2">🌟</div>
+<div class="doodle doodle-3">🎨</div>
+<div class="doodle doodle-4">⚡</div>
+
 <header>
-
-<div class="navbar">
-
-<div class="brand">
-    <div class="logo">CS</div>
-    CivicSense <span>AI</span>
-</div>
-
-<nav>
-
-<button class="active" onclick="showPage('home',this)">
-Home
-</button>
-
-<button onclick="showPage('report',this)">
-Report
-</button>
-
-<button onclick="showPage('track',this)">
-Track
-</button>
-
-<button onclick="showPage('dashboard',this)">
-Dashboard
-</button>
-
-</nav>
-
-</div>
-
+  <div class="brand-block">
+    <span class="name">CivicSense 📣</span>
+    <span class="sub">Fix Local Stuff</span>
+  </div>
+  <nav>
+    <button class="active" onclick="switchTab('reportTab')">Report 📝</button>
+    <button onclick="switchTab('feedTab')">Feed 👀</button>
+    <button onclick="openAdminModal()">Office 🛠️</button>
+  </nav>
+  <div class="score-seal">
+    <span id="badgeTitle">🌱 Novice</span> • ⚡ <span id="userPoints">0</span> pts
+  </div>
 </header>
 
+<main class="container">
 
-<!-- ================= HOME ================= -->
+  <div class="grid-4">
+    <div class="stat-card"><h3 id="statTotal">0</h3><p>Total Filed</p></div>
+    <div class="stat-card"><h3 id="statCritical">0</h3><p>Critical 🚨</p></div>
+    <div class="stat-card"><h3 id="statPending">0</h3><p>Pending ⏳</p></div>
+    <div class="stat-card"><h3 id="statResolved">0</h3><p>Resolved 🎉</p></div>
+  </div>
 
-<section id="home" class="page active">
+  <section id="reportTab" class="card">
+    <h2 class="card-heading">Drop a report on an issue 📢</h2>
+    <p class="card-sub">Let us know what's broken in your neighborhood and we'll route it straight to the team!</p>
 
-<div class="hero">
+    <form id="reportForm">
+      <div class="grid-2">
+        <div>
+          <label><span class="field-num">1</span>Your Name (Optional) 👤</label>
+          <input id="userName" placeholder="e.g. Alex Smith">
+        </div>
+        <div>
+          <label><span class="field-num">2</span>Your Email (Optional) ✉️</label>
+          <input id="userEmail" type="email" placeholder="alex@example.com">
+        </div>
+      </div>
 
-<div>
+      <label><span class="field-num">3</span>Photo Evidence 📸</label>
+      <input id="photo" type="file" accept="image/*" onchange="previewImage()">
+      <img id="preview" alt="Preview">
 
-<div class="badge">
-AI-POWERED CIVIC REPORTING
+      <label><span class="field-num">4</span>Category 🏷️</label>
+      <select id="category" onchange="checkDuplicates()" required>
+        <option value="">Choose a vibe/category…</option>
+        <option value="Roads & Potholes">🛣️ Roads &amp; Potholes</option>
+        <option value="Sanitation & Garbage">🧹 Sanitation &amp; Garbage</option>
+        <option value="Electrical & Lights">💡 Electrical &amp; Lights</option>
+        <option value="Water & Drainage">🚰 Water &amp; Drainage</option>
+        <option value="Public Safety Hazard">⚠️ Public Safety Hazard</option>
+      </select>
+
+      <div id="duplicateNotice" class="duplicate-banner hidden"></div>
+
+      <label><span class="field-num">5</span>Description 💬</label>
+      <textarea id="description" rows="3" placeholder="What's going on? Give us the details..." oninput="runAiAnalysis(this.value)" required></textarea>
+
+      <div style="margin-top: 10px; font-size: 13px; color: var(--ink-dim); display: flex; align-items: center; gap: 8px; font-weight: 700;">
+        <span>Threat Check:</span>
+        <span id="aiTag" class="stamp stamp-normal">Normal 🟢</span>
+      </div>
+
+      <label><span class="field-num">6</span>Location 📍</label>
+      <input id="locationName" placeholder="e.g. 5th Main Street, or hit auto-detect" required>
+
+      <div style="display: flex; gap: 10px; margin-top: 12px;">
+        <button type="button" class="btn secondary" style="width: 100%;" onclick="getGPSLocation()">
+          📍 Auto-detect My Spot
+        </button>
+      </div>
+
+      <input type="hidden" id="lat">
+      <input type="hidden" id="lng">
+
+      <button id="submitBtn" type="submit" class="btn" style="margin-top: 22px; width: 100%;">Submit & Grab +10 pts! 🚀</button>
+    </form>
+  </section>
+
+  <section id="feedTab" class="card hidden">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 20px;">
+      <h2 class="card-heading" style="margin-bottom: 0;">Community Feed 🌐</h2>
+      <select id="feedFilter" onchange="renderFeed()" style="width: 210px;">
+        <option value="ALL">✨ All categories</option>
+        <option value="Roads & Potholes">🛣️ Roads</option>
+        <option value="Sanitation & Garbage">🧹 Sanitation</option>
+        <option value="Electrical & Lights">💡 Electrical</option>
+        <option value="Water & Drainage">🚰 Water</option>
+        <option value="Public Safety Hazard">⚠️ Safety</option>
+      </select>
+    </div>
+    <div id="feedList"></div>
+  </section>
+
+  <section id="adminTab" class="card hidden">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 10px;">
+      <div>
+        <h2 class="card-heading" style="margin-bottom: 4px;">Officer Desk 🛠️</h2>
+        <p class="card-sub" style="margin-bottom: 0;">Review community reports and get things fixed!</p>
+      </div>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <button class="btn secondary" style="padding: 9px 14px; font-size: 12px;" onclick="exportDataJSON()">JSON 📄</button>
+        <button class="btn secondary" style="padding: 9px 14px; font-size: 12px;" onclick="exportDataCSV()">CSV 📊</button>
+        <button class="btn secondary" style="padding: 9px 14px; font-size: 12px;" onclick="logoutAdmin()">Log Out 👋</button>
+      </div>
+    </div>
+    <div id="adminList"></div>
+  </section>
+
+</main>
+
+<div id="loginModal" class="modal hidden">
+  <div class="modalbox">
+    <h2 style="font-family: 'Fredoka', sans-serif; font-size: 22px; font-weight: 700; margin-bottom: 6px;">Admin Access 🔒</h2>
+    <p style="color: var(--ink-dim); font-size: 13px; margin-bottom: 16px; font-weight: 600;">Sign in to handle reported tasks.</p>
+
+    <label style="margin-top: 6px;">Email</label>
+    <input id="adminEmail" type="email" placeholder="admin@example.com">
+
+    <label>Password</label>
+    <input id="adminPassword" type="password" placeholder="••••">
+
+    <div style="display: flex; gap: 10px; margin-top: 22px;">
+      <button class="btn" style="flex: 1;" onclick="loginAdmin()">Login 🔑</button>
+      <button class="btn secondary" style="flex: 1;" onclick="closeAdminModal()">Back ✖️</button>
+    </div>
+  </div>
 </div>
 
-<h1>
-Turn local problems into
-<span>action.</span>
-</h1>
-
-<p class="hero-text">
-
-Report potholes, garbage, broken streetlights,
-water leaks, traffic problems and other civic
-issues. CivicSense AI analyzes the report,
-helps determine priority and routes it to the
-appropriate department.
-
-</p>
-
-<div class="buttons">
-
-<button class="btn primary"
-onclick="showPage('report')">
-
-📸 Report an Issue
-
-</button>
-
-<button class="btn outline"
-onclick="showPage('track')">
-
-🔎 Track Complaint
-
-</button>
-
+<div id="resolveModal" class="modal hidden">
+  <div class="modalbox">
+    <h2 style="font-family: 'Fredoka', sans-serif; font-size: 20px; font-weight: 700; margin-bottom: 6px;">Mark Ticket Resolved 🎉</h2>
+    <p style="color: var(--ink-dim); font-size: 13px; margin-bottom: 14px;">Add an optional photo URL showing the completed fix.</p>
+    <label>Resolution Photo URL (Optional)</label>
+    <input id="resolvePhotoUrl" placeholder="https://example.com/fixed_photo.jpg">
+    <div style="display: flex; gap: 10px; margin-top: 20px;">
+      <button class="btn success" style="flex: 1;" onclick="confirmResolve()">Resolve Ticket</button>
+      <button class="btn secondary" style="flex: 1;" onclick="closeResolveModal()">Cancel</button>
+    </div>
+  </div>
 </div>
-
-</div>
-
-
-<div class="card">
-
-<h3>How CivicSense works</h3>
-
-<div class="flow">
-
-<div class="flow-item">
-📸 Upload evidence
-</div>
-
-<div class="flow-item">
-📍 Capture location
-</div>
-
-<div class="flow-item">
-🤖 AI analyzes the issue
-</div>
-
-<div class="flow-item">
-🏛️ Smart department routing
-</div>
-
-<div class="flow-item">
-📊 Track resolution
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-
-<div class="section-title">
-
-<h2>
-One platform. Complete civic workflow.
-</h2>
-
-<p>
-Designed for a modern smart-city complaint system.
-</p>
-
-</div>
-
-
-<div class="features">
-
-<div class="card feature">
-
-<div class="icon">🤖</div>
-
-<h3>AI Triage</h3>
-
-<p>
-AI analyzes the citizen's description and
-uploaded evidence to assist classification.
-</p>
-
-</div>
-
-
-<div class="card feature">
-
-<div class="icon">📸</div>
-
-<h3>Image Understanding</h3>
-
-<p>
-Photos can be sent to the AI backend for
-civic issue analysis.
-</p>
-
-</div>
-
-
-<div class="card feature">
-
-<div class="icon">📍</div>
-
-<h3>Location Intelligence</h3>
-
-<p>
-Browser GPS attaches coordinates to the
-complaint when permission is granted.
-</p>
-
-</div>
-
-
-<div class="card feature">
-
-<div class="icon">🏛️</div>
-
-<h3>Smart Routing</h3>
-
-<p>
-The AI can recommend the department
-responsible for the issue.
-</p>
-
-</div>
-
-
-<div class="card feature">
-
-<div class="icon">♻️</div>
-
-<h3>Duplicate Detection</h3>
-
-<p>
-Existing complaints can be checked for
-possible duplicates.
-</p>
-
-</div>
-
-
-<div class="card feature">
-
-<div class="icon">📊</div>
-
-<h3>Officer Dashboard</h3>
-
-<p>
-Officers can search complaints and update
-their workflow status.
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-
-
-<!-- ================= REPORT ================= -->
-
-<section id="report" class="page">
-
-<div class="section-title">
-
-<h2>Report a Civic Issue</h2>
-
-<p>
-Give the system enough information to analyze
-and route the complaint.
-</p>
-
-</div>
-
-
-<div class="card form-card">
-
-
-<div class="field">
-
-<label for="category">
-Issue Category
-</label>
-
-<select id="category">
-
-<option value="">
-Select category
-</option>
-
-<option>
-Pothole / Road Damage
-</option>
-
-<option>
-Garbage / Sanitation
-</option>
-
-<option>
-Broken Streetlight
-</option>
-
-<option>
-Water Leakage
-</option>
-
-<option>
-Traffic Signal
-</option>
-
-<option>
-Fallen Tree / Greenery
-</option>
-
-<option>
-Other Civic Issue
-</option>
-
-</select>
-
-</div>
-
-
-<div class="field">
-
-<label for="description">
-Description
-</label>
-
-<textarea
-id="description"
-placeholder="Describe what happened, where it happened and how it affects people...">
-</textarea>
-
-</div>
-
-
-<div class="field">
-
-<label>
-Photo Evidence
-</label>
-
-<div class="upload">
-
-<input
-type="file"
-id="photo"
-accept="image/*"
-onchange="previewImage(event)"
->
-
-<p style="margin-top:8px;color:#667085">
-
-Choose a clear photo of the issue.
-
-</p>
-
-<img id="preview">
-
-</div>
-
-</div>
-
-
-<div class="field">
-
-<label>
-Location
-</label>
-
-<div class="location-row">
-
-<button
-type="button"
-class="btn secondary"
-onclick="getLocation()">
-
-📍 Use My Location
-
-</button>
-
-<span
-id="locationText"
-class="location-text">
-
-Location not captured
-
-</span>
-
-</div>
-
-</div>
-
-
-<button
-class="btn primary"
-style="width:100%"
-onclick="analyzeWithAI()">
-
-🤖 Analyze With AI
-
-</button>
-
-
-<div
-id="loading"
-class="loading">
-
-⏳ AI is analyzing your complaint...
-
-</div>
-
-
-<!-- AI RESULT -->
-
-<div id="aiBox" class="ai-box">
-
-<div class="ai-header">
-
-<strong>
-🤖 CivicSense AI Analysis
-</strong>
-
-<span
-id="aiStatus"
-class="ai-status">
-
-Analysis complete
-
-</span>
-
-</div>
-
-
-<div class="ai-grid">
-
-
-<div class="metric">
-
-<small>Issue</small>
-
-<strong id="aiIssue">
-—
-</strong>
-
-</div>
-
-
-<div class="metric">
-
-<small>Department</small>
-
-<strong id="aiDepartment">
-—
-</strong>
-
-</div>
-
-
-<div class="metric">
-
-<small>Severity</small>
-
-<strong id="aiSeverity">
-—
-</strong>
-
-</div>
-
-
-<div class="metric">
-
-<small>Priority</small>
-
-<strong id="aiPriority">
-—
-</strong>
-
-</div>
-
-
-<div class="metric">
-
-<small>Score</small>
-
-<strong id="aiScore">
-—
-</strong>
-
-</div>
-
-
-<div class="metric">
-
-<small>Confidence</small>
-
-<strong id="aiConfidence">
-—
-</strong>
-
-</div>
-
-
-</div>
-
-
-<div
-id="aiExplanation"
-class="ai-explanation">
-
-</div>
-
-</div>
-
-
-<button
-id="submitButton"
-class="btn primary"
-style="width:100%;margin-top:12px"
-onclick="submitComplaint()"
-disabled>
-
-🚀 Submit Complaint
-
-</button>
-
-</div>
-
-</section>
-
-
-
-<!-- ================= TRACK ================= -->
-
-<section id="track" class="page">
-
-<div class="section-title">
-
-<h2>Track Your Complaint</h2>
-
-<p>
-Enter your CivicSense complaint ID.
-</p>
-
-</div>
-
-
-<div class="card track-card">
-
-<div class="track-search">
-
-<input
-id="trackId"
-placeholder="Example: CS-2026-1001"
->
-
-<button
-class="btn primary"
-onclick="trackComplaint()">
-
-🔎 Track
-
-</button>
-
-</div>
-
-
-<div id="trackResult"></div>
-
-</div>
-
-</section>
-
-
-
-<!-- ================= DASHBOARD ================= -->
-
-<section id="dashboard" class="page">
-
-<div class="dashboard-head">
-
-<div class="section-title">
-
-<h2>Officer Dashboard</h2>
-
-<p>
-Monitor civic complaints and update their status.
-</p>
-
-</div>
-
-<button
-class="btn outline"
-onclick="loadComplaints()">
-
-↻ Refresh
-
-</button>
-
-</div>
-
-
-<div class="stats">
-
-<div class="card stat">
-
-<h2 id="total">
-0
-</h2>
-
-<p>Total Complaints</p>
-
-</div>
-
-
-<div class="card stat">
-
-<h2 id="pending">
-0
-</h2>
-
-<p>Reported</p>
-
-</div>
-
-
-<div class="card stat">
-
-<h2 id="urgent">
-0
-</h2>
-
-<p>High Priority</p>
-
-</div>
-
-
-<div class="card stat">
-
-<h2 id="resolved">
-0
-</h2>
-
-<p>Resolved</p>
-
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="toolbar">
-
-<input
-id="search"
-placeholder="Search ID, issue or department"
-oninput="filterTable()"
->
-
-
-<select
-id="departmentFilter"
-onchange="filterTable()">
-
-<option value="">
-All Departments
-</option>
-
-<option>Road Department</option>
-<option>Sanitation Department</option>
-<option>Electrical Department</option>
-<option>Water Department</option>
-<option>Traffic Department</option>
-<option>Garden Department</option>
-<option>Civic Administration</option>
-
-</select>
-
-
-<select
-id="statusFilter"
-onchange="filterTable()">
-
-<option value="">
-All Statuses
-</option>
-
-<option>Reported</option>
-<option>Assigned</option>
-<option>In Progress</option>
-<option>Resolved</option>
-
-</select>
-
-</div>
-
-
-<div class="table-wrap">
-
-<table>
-
-<thead>
-
-<tr>
-
-<th>ID</th>
-<th>Issue</th>
-<th>Department</th>
-<th>Priority</th>
-<th>Status</th>
-<th>Update</th>
-
-</tr>
-
-</thead>
-
-<tbody id="complaintTable">
-
-<tr>
-<td colspan="6" class="empty">
-Loading complaints...
-</td>
-</tr>
-
-</tbody>
-
-</table>
-
-</div>
-
-</div>
-
-
-<div class="section-title">
-
-<h2>Issue Hotspots</h2>
-
-<p>
-Complaint locations will appear here when
-the backend supplies GPS coordinates.
-</p>
-
-</div>
-
-
-<div class="map">
-
-<div class="pin" style="left:18%;top:30%">
-📍
-</div>
-
-<div class="pin" style="left:45%;top:65%">
-📍
-</div>
-
-<div class="pin" style="left:68%;top:25%">
-📍
-</div>
-
-<div class="pin" style="left:77%;top:60%">
-📍
-</div>
-
-</div>
-
-</section>
-
 
 <div id="toast" class="toast"></div>
 
-
-<footer>
-
-CivicSense AI • Smart Civic Reporting
-
-</footer>
-
-
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+  const SUPABASE_URL = "https://epmsuqtllglizzxcixmm.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_OLII8hRKnJsFEf2yDJNkCA_8PW0zf8F";
+  const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-/*
-==================================================
-CIVICSENSE AI FRONTEND
-Backend expected at the same server:
+  const WEB3FORMS_ACCESS_KEY = "YOUR_WEB3FORMS_KEY_HERE";
+  const RECIPIENT_EMAIL = "manjrekaryadnyesh13@gmail.com";
 
-POST /api/analyze
-POST /api/complaints
-GET  /api/complaints
-GET  /api/complaints/:id
-PATCH /api/complaints/:id/status
-==================================================
-*/
+  const CATEGORY_ICONS = {
+    "Roads & Potholes": "🛣️",
+    "Sanitation & Garbage": "🧹",
+    "Electrical & Lights": "💡",
+    "Water & Drainage": "🚰",
+    "Public Safety Hazard": "⚠️"
+  };
+  const DEFAULT_ICON = "📌";
 
+  let reports = [];
+  let userPoints = parseInt(localStorage.getItem("civic_v2_points")) || 0;
+  let currentAiUrgency = "NORMAL";
+  let isAdminLoggedIn = false;
+  let imageBase64 = null;
+  let resolvingTicketId = null;
 
-const API = "/api";
+  updateUserBadge();
 
-let complaints = [];
+  db.auth.getSession().then(({ data }) => {
+    isAdminLoggedIn = !!data?.session;
+  }).catch(e => console.error("Session check failed:", e && e.message ? e.message : e));
 
-let currentAnalysis = null;
+  loadReports();
 
-let currentLocation = null;
+  async function loadReports() {
+    try {
+      const { data, error } = await db
+        .from('reports')
+        .select('*')
+        .order('created_at', { ascending: false });
 
-
-
-/* ==========================================
-   PAGE NAVIGATION
-========================================== */
-
-function showPage(page, button){
-
-    document
-    .querySelectorAll(".page")
-    .forEach(p =>
-        p.classList.remove("active")
-    );
-
-    document
-    .getElementById(page)
-    .classList.add("active");
-
-
-    document
-    .querySelectorAll("nav button")
-    .forEach(b =>
-        b.classList.remove("active")
-    );
-
-
-    if(button){
-
-        button.classList.add("active");
-
+      if (error) throw error;
+      reports = data || [];
+      updateMetrics();
+    } catch(e) {
+      console.error(e);
+      toast("Load failed: " + (e && (e.message || e.details || e.hint) || JSON.stringify(e)));
     }
+  }
 
+  function switchTab(tabId) {
+    document.querySelectorAll("nav button").forEach(b => b.classList.remove("active"));
 
-    if(page === "dashboard"){
+    const activeBtn = Array.from(document.querySelectorAll("nav button")).find(b => b.getAttribute('onclick') && b.getAttribute('onclick').includes(tabId));
+    if(activeBtn) activeBtn.classList.add("active");
 
-        loadComplaints();
-
-    }
-
-
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
+    ["reportTab", "feedTab", "adminTab"].forEach(id => {
+      const el = document.getElementById(id);
+      if(el) el.classList.add("hidden");
     });
 
-}
+    const target = document.getElementById(tabId);
+    if(target) target.classList.remove("hidden");
 
+    if (tabId === "feedTab") { loadReports().then(renderFeed); }
+    if (tabId === "adminTab") { loadReports().then(renderAdminDesk); }
+  }
 
+  function openAdminModal() {
+    if (isAdminLoggedIn) { switchTab('adminTab'); } 
+    else { document.getElementById("loginModal").classList.remove("hidden"); }
+  }
 
-/* ==========================================
-   TOAST
-========================================== */
+  function closeAdminModal() { document.getElementById("loginModal").classList.add("hidden"); }
 
-function toast(message){
+  async function loginAdmin() {
+    const email = document.getElementById("adminEmail").value;
+    const password = document.getElementById("adminPassword").value;
+    const { data, error } = await db.auth.signInWithPassword({ email, password });
 
-    const element =
-    document.getElementById("toast");
+    if (error) { toast("Invalid login details! ❌"); return; }
 
-    element.textContent = message;
+    isAdminLoggedIn = true;
+    closeAdminModal();
+    switchTab("adminTab");
+    toast("Welcome back Admin! 👋");
+    document.getElementById("adminEmail").value = "";
+    document.getElementById("adminPassword").value = "";
+  }
 
-    element.style.display = "block";
+  async function logoutAdmin() {
+    await db.auth.signOut();
+    isAdminLoggedIn = false;
+    toast("Logged out! Bye bye 👋");
+    switchTab("reportTab");
+  }
 
+  function previewImage(){
+    const file = document.getElementById("photo").files[0];
+    const img = document.getElementById("preview");
+    if(file){
+      const reader = new FileReader();
+      reader.onload = function(e){
+        imageBase64 = e.target.result;
+        img.src = imageBase64;
+        img.style.display = "block";
+      };
+      reader.readAsDataURL(file);
+    } else {
+      imageBase64 = null;
+      img.style.display = "none";
+    }
+  }
 
-    setTimeout(() => {
+  function checkDuplicates() {
+    const cat = document.getElementById("category").value;
+    const notice = document.getElementById("duplicateNotice");
+    if (!cat) { notice.classList.add("hidden"); return; }
 
-        element.style.display = "none";
+    const existing = reports.filter(r => r.category === cat && r.status !== 'Resolved');
+    if (existing.length > 0) {
+      notice.innerHTML = `ℹ️ <strong>Heads up:</strong> There are currently ${existing.length} open report(s) in "${escapeHTML(cat)}". Check the Feed to see if yours was already reported!`;
+      notice.classList.remove("hidden");
+    } else {
+      notice.classList.add("hidden");
+    }
+    runAiAnalysis(document.getElementById("description").value);
+  }
 
-    },3000);
+  function runAiAnalysis(text) {
+    const category = document.getElementById("category").value;
+    const lower = text.toLowerCase();
+    const criticalWords = ["fire", "wire", "flood", "spark", "accident", "danger", "burst", "collapse"];
+    const aiTag = document.getElementById("aiTag");
 
-}
+    if (criticalWords.some(w => lower.includes(w))) {
+      currentAiUrgency = "CRITICAL";
+      aiTag.className = "stamp stamp-critical";
+      aiTag.innerHTML = "Critical 🚨";
+    } 
+    else if (category === "Roads & Potholes" || category === "Public Safety Hazard") {
+      currentAiUrgency = "HIGH";
+      aiTag.className = "stamp stamp-high";
+      aiTag.innerHTML = "High Urgency ⚠️";
+    } 
+    else if (category === "Electrical & Lights" || category === "Water & Drainage") {
+      currentAiUrgency = "MEDIUM";
+      aiTag.className = "stamp stamp-medium";
+      aiTag.innerHTML = "Medium Urgency ⚡";
+    } 
+    else {
+      currentAiUrgency = "NORMAL";
+      aiTag.className = "stamp stamp-normal";
+      aiTag.innerHTML = "Normal 🟢";
+    }
+  }
 
+  function getGPSLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        pos => {
+          const lat = pos.coords.latitude;
+          const lng = pos.coords.longitude;
+          document.getElementById("lat").value = lat;
+          document.getElementById("lng").value = lng;
+          document.getElementById("locationName").value = `GPS: ${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+          toast("Got your GPS coords! 📍");
+        },
+        () => fetchIPLocation()
+      );
+    } else { fetchIPLocation(); }
+  }
 
+  async function fetchIPLocation() {
+    try {
+      const res = await fetch('https://ipapi.co/json/');
+      const data = await res.json();
+      if (data.city && data.ip) {
+        document.getElementById("lat").value = data.latitude || '';
+        document.getElementById("lng").value = data.longitude || '';
+        document.getElementById("locationName").value = `${data.city}, ${data.region} (IP: ${data.ip})`;
+        toast("Location found via IP 🌐");
+      }
+    } catch(e) { toast("Couldn't auto-detect location!"); }
+  }
 
-/* ==========================================
-   IMAGE PREVIEW
-========================================== */
+  document.getElementById("reportForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
 
-function previewImage(event){
+    const submitBtn = document.getElementById("submitBtn");
+    submitBtn.disabled = true;
+    submitBtn.innerText = "Submitting... ⏳";
 
-    const file =
-    event.target.files[0];
+    const userName = document.getElementById("userName").value || "Anonymous";
+    const userEmail = document.getElementById("userEmail").value || "N/A";
+    const category = document.getElementById("category").value;
+    const description = document.getElementById("description").value;
+    const location = document.getElementById("locationName").value;
+    const lat = document.getElementById("lat").value;
+    const lng = document.getElementById("lng").value;
 
-    if(!file){
+    const newReport = {
+      reporter_name: userName,
+      reporter_email: userEmail,
+      category,
+      description,
+      location,
+      lat: lat ? parseFloat(lat) : null,
+      lng: lng ? parseFloat(lng) : null,
+      urgency: currentAiUrgency,
+      status: "Pending",
+      upvotes: 0
+    };
 
-        return;
+    try {
+      const { data: inserted, error } = await db.from('reports').insert(newReport).select().single();
 
+      if (error) throw error;
+
+      userPoints += 10;
+      savePoints();
+
+      if (WEB3FORMS_ACCESS_KEY && WEB3FORMS_ACCESS_KEY !== "YOUR_WEB3FORMS_KEY_HERE") {
+        try {
+          const fileInput = document.getElementById("photo");
+          const file = fileInput.files[0];
+          const formData = new FormData();
+          formData.append("access_key", WEB3FORMS_ACCESS_KEY);
+          formData.append("subject", `Civic Report #${inserted.id}: ${category} [${currentAiUrgency}]`);
+          formData.append("from_name", userName !== "Anonymous" ? userName : "CivicSense Portal");
+          formData.append("Recipient", RECIPIENT_EMAIL);
+          formData.append("Report ID", `#${inserted.id}`);
+          formData.append("Reporter Name", userName);
+          formData.append("Reporter Email", userEmail);
+          formData.append("Category", category);
+          formData.append("Threat Level", currentAiUrgency);
+          formData.append("Location/IP Details", location);
+          formData.append("Coordinates", lat && lng ? `${lat}, ${lng}` : "None");
+          formData.append("Description", description);
+          if (file) formData.append("attachment", file);
+          fetch("https://api.web3forms.com/submit", { method: "POST", body: formData }).catch(console.error);
+        } catch(err) { console.error("Email notification skipped:", err); }
+      }
+
+      toast("Report dropped! +10 Points 💫");
+
+      this.reset();
+      document.getElementById("preview").style.display = "none";
+      document.getElementById("duplicateNotice").classList.add("hidden");
+      document.getElementById("aiTag").className = "stamp stamp-normal";
+      document.getElementById("aiTag").innerHTML = "Normal 🟢";
+      imageBase64 = null;
+
+      switchTab("feedTab");
+
+    } catch(err) {
+      console.error(err);
+      toast("Submit failed: " + (err && (err.message || err.details || err.hint) || JSON.stringify(err)));
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.innerText = "Submit & Grab +10 pts! 🚀";
+    }
+  });
+
+  function urgencyStampClass(urgency) {
+    if (urgency === 'CRITICAL') return 'stamp-critical';
+    if (urgency === 'HIGH') return 'stamp-high';
+    if (urgency === 'MEDIUM') return 'stamp-medium';
+    return 'stamp-normal';
+  }
+
+  function statusStampClass(status) {
+    return status === 'Resolved' ? 'stamp-resolved' : (status === 'In Progress' ? 'stamp-progress' : 'stamp-pending');
+  }
+
+  function renderFeed() {
+    const list = document.getElementById("feedList");
+    const filter = document.getElementById("feedFilter").value;
+    list.innerHTML = "";
+
+    const filtered = filter === "ALL" ? reports : reports.filter(r => r.category === filter);
+
+    if (filtered.length === 0) {
+      list.innerHTML = `<p class="empty-state">No reports found here yet! 🎉</p>`;
+      return;
     }
 
+    filtered.forEach(r => {
+      const icon = CATEGORY_ICONS[r.category] || DEFAULT_ICON;
+      const card = document.createElement("div");
+      card.className = "report-card";
+      
+      let resolvedMarkup = '';
+      if (r.status === 'Resolved' && r.resolved_photo_url) {
+        resolvedMarkup = `
+          <div class="resolved-box">
+            <strong>📸 Verification / Fix Proof:</strong><br>
+            <img src="${escapeHTML(r.resolved_photo_url)}" alt="Resolution Proof">
+          </div>
+        `;
+      }
 
-    const image =
-    document.getElementById("preview");
-
-
-    image.src =
-    URL.createObjectURL(file);
-
-    image.style.display = "block";
-
-}
-
-
-
-/* ==========================================
-   GPS
-========================================== */
-
-function getLocation(){
-
-    const output =
-    document.getElementById("locationText");
-
-
-    if(!navigator.geolocation){
-
-        output.textContent =
-        "GPS is not supported.";
-
-        return;
-
-    }
-
-
-    output.textContent =
-    "Getting location...";
-
-
-    navigator.geolocation.getCurrentPosition(
-
-        position => {
-
-            currentLocation = {
-
-                latitude:
-                position.coords.latitude,
-
-                longitude:
-                position.coords.longitude
-
-            };
-
-
-            output.textContent =
-            `${currentLocation.latitude.toFixed(6)}, ${
-                currentLocation.longitude.toFixed(6)
-            }`;
-
-        },
-
-        error => {
-
-            console.error(error);
-
-            output.textContent =
-            "Location permission denied.";
-
-            currentLocation = null;
-
-        },
-
-        {
-            enableHighAccuracy:true,
-            timeout:10000
-        }
-
-    );
-
-}
-
-
-
-/* ==========================================
-   CONVERT IMAGE TO BASE64
-========================================== */
-
-function imageToBase64(file){
-
-    return new Promise((resolve,reject)=>{
-
-        const reader =
-        new FileReader();
-
-
-        reader.onload = () => {
-
-            resolve(reader.result);
-
-        };
-
-
-        reader.onerror = reject;
-
-
-        reader.readAsDataURL(file);
-
+      card.innerHTML = `
+        <div class="card-top">
+          <div class="card-cat"><span>${icon}</span><span>${escapeHTML(r.category)}</span></div>
+          <span class="stamp ${urgencyStampClass(r.urgency)}">${r.urgency}</span>
+        </div>
+        <div class="ticket-no">Ticket #${r.id} • By: ${escapeHTML(r.reporter_name || 'Anonymous')}</div>
+        <p class="card-meta">📍 ${escapeHTML(r.location)} • ${new Date(r.created_at).toLocaleDateString()}</p>
+        <p class="card-desc">${escapeHTML(r.description)}</p>
+        ${resolvedMarkup}
+        <div class="card-actions">
+          <button class="btn secondary" style="padding: 8px 16px; font-size: 12px;" onclick="upvote(${r.id})">Upvote 👍 (${r.upvotes})</button>
+          <span class="stamp ${statusStampClass(r.status)}">${r.status}</span>
+        </div>
+      `;
+      list.appendChild(card);
     });
+  }
 
-}
+  function renderAdminDesk() {
+    const list = document.getElementById("adminList");
+    list.innerHTML = "";
 
-
-
-/* ==========================================
-   AI ANALYSIS
-========================================== */
-
-async function analyzeWithAI(){
-
-    const category =
-    document
-    .getElementById("category")
-    .value;
-
-
-    const description =
-    document
-    .getElementById("description")
-    .value
-    .trim();
-
-
-    if(!category && !description){
-
-        toast(
-            "Please enter an issue or description."
-        );
-
-        return;
-
+    if (reports.length === 0) {
+      list.innerHTML = `<p class="empty-state">No tickets in queue! All clear ✨</p>`;
+      return;
     }
 
-
-    const photo =
-    document
-    .getElementById("photo")
-    .files[0];
-
-
-    const loading =
-    document
-    .getElementById("loading");
-
-
-    const aiBox =
-    document
-    .getElementById("aiBox");
-
-
-    loading.style.display =
-    "block";
-
-
-    aiBox.style.display =
-    "none";
-
-
-    document
-    .getElementById("submitButton")
-    .disabled = true;
-
-
-    try{
-
-        let image = null;
-
-
-        if(photo){
-
-            image =
-            await imageToBase64(photo);
-
-        }
-
-
-        const response =
-        await fetch(
-            `${API}/analyze`,
-            {
-
-                method:"POST",
-
-                headers:{
-                    "Content-Type":
-                    "application/json"
-                },
-
-                body:JSON.stringify({
-
-                    category,
-
-                    description,
-
-                    image,
-
-                    location:
-                    currentLocation
-
-                })
-
-            }
-        );
-
-
-        const result =
-        await response.json();
-
-
-        if(!response.ok){
-
-            throw new Error(
-                result.error ||
-                "AI analysis failed."
-            );
-
-        }
-
-
-        currentAnalysis =
-        result;
-
-
-        showAIResult(result);
-
-
-        document
-        .getElementById("submitButton")
-        .disabled = false;
-
-
-    }
-    catch(error){
-
-        console.error(error);
-
-        toast(
-            "AI connection failed. Check the backend."
-        );
-
-    }
-    finally{
-
-        loading.style.display =
-        "none";
-
-    }
-
-}
-
-
-
-/* ==========================================
-   DISPLAY AI RESULT
-========================================== */
-
-function showAIResult(result){
-
-    document
-    .getElementById("aiBox")
-    .style.display = "block";
-
-
-    document
-    .getElementById("aiIssue")
-    .textContent =
-    result.issue ||
-    result.category ||
-    "Unknown";
-
-
-    document
-    .getElementById("aiDepartment")
-    .textContent =
-    result.department ||
-    "Civic Administration";
-
-
-    document
-    .getElementById("aiSeverity")
-    .textContent =
-    result.severity ||
-    "Medium";
-
-
-    document
-    .getElementById("aiPriority")
-    .textContent =
-    result.priority ||
-    result.severity ||
-    "Medium";
-
-
-    document
-    .getElementById("aiScore")
-    .textContent =
-    result.score != null
-    ? `${result.score}/100`
-    : "—";
-
-
-    document
-    .getElementById("aiConfidence")
-    .textContent =
-    result.confidence != null
-    ? `${result.confidence}%`
-    : "—";
-
-
-    document
-    .getElementById("aiExplanation")
-    .textContent =
-    result.explanation ||
-    "AI analysis completed.";
-
-}
-
-
-
-/* ==========================================
-   SUBMIT COMPLAINT
-========================================== */
-
-async function submitComplaint(){
-
-    if(!currentAnalysis){
-
-        toast(
-            "Analyze the complaint first."
-        );
-
-        return;
-
-    }
-
-
-    const description =
-    document
-    .getElementById("description")
-    .value
-    .trim();
-
-
-    const category =
-    document
-    .getElementById("category")
-    .value;
-
-
-    const photo =
-    document
-    .getElementById("photo")
-    .files[0];
-
-
-    let image = null;
-
-
-    try{
-
-        if(photo){
-
-            image =
-            await imageToBase64(photo);
-
-        }
-
-
-        const response =
-        await fetch(
-            `${API}/complaints`,
-            {
-
-                method:"POST",
-
-                headers:{
-                    "Content-Type":
-                    "application/json"
-                },
-
-                body:JSON.stringify({
-
-                    category,
-
-                    description,
-
-                    image,
-
-                    location:
-                    currentLocation,
-
-                    analysis:
-                    currentAnalysis
-
-                })
-
-            }
-        );
-
-
-        const result =
-        await response.json();
-
-
-        if(!response.ok){
-
-            throw new Error(
-                result.error ||
-                "Could not submit complaint."
-            );
-
-        }
-
-
-        const complaint =
-        result.complaint ||
-        result;
-
-
-        toast(
-            `Complaint created: ${
-                complaint.id
-            }`
-        );
-
-
-        /* put ID into tracking box */
-
-        document
-        .getElementById("trackId")
-        .value =
-        complaint.id;
-
-
-        /* reset report form */
-
-        resetReport();
-
-
-        /* open tracker */
-
-        showPage("track");
-
-
-        trackComplaint();
-
-
-    }
-    catch(error){
-
-        console.error(error);
-
-        toast(
-            "Submission failed. Check the backend."
-        );
-
-    }
-
-}
-
-
-
-/* ==========================================
-   RESET REPORT FORM
-========================================== */
-
-function resetReport(){
-
-    document
-    .getElementById("category")
-    .value = "";
-
-
-    document
-    .getElementById("description")
-    .value = "";
-
-
-    document
-    .getElementById("photo")
-    .value = "";
-
-
-    document
-    .getElementById("preview")
-    .style.display = "none";
-
-
-    document
-    .getElementById("locationText")
-    .textContent =
-    "Location not captured";
-
-
-    document
-    .getElementById("aiBox")
-    .style.display = "none";
-
-
-    document
-    .getElementById("submitButton")
-    .disabled = true;
-
-
-    currentAnalysis = null;
-
-    currentLocation = null;
-
-}
-
-
-
-/* ==========================================
-   TRACK COMPLAINT
-========================================== */
-
-async function trackComplaint(){
-
-    const id =
-    document
-    .getElementById("trackId")
-    .value
-    .trim();
-
-
-    if(!id){
-
-        toast(
-            "Enter a complaint ID."
-        );
-
-        return;
-
-    }
-
-
-    const resultBox =
-    document
-    .getElementById("trackResult");
-
-
-    resultBox.innerHTML = `
-        <div class="loading"
-             style="display:block">
-            Loading complaint...
+    reports.forEach(r => {
+      const icon = CATEGORY_ICONS[r.category] || DEFAULT_ICON;
+      const card = document.createElement("div");
+      card.className = "report-card";
+      card.innerHTML = `
+        <div class="card-top">
+          <div class="card-cat"><span>${icon}</span><span>${escapeHTML(r.category)}</span></div>
+          <div style="display: flex; gap: 6px; align-items: center;">
+            <span class="stamp ${urgencyStampClass(r.urgency)}">${r.urgency}</span>
+            <span class="stamp ${statusStampClass(r.status)}">${r.status}</span>
+          </div>
         </div>
-    `;
-
-
-    try{
-
-        const response =
-        await fetch(
-            `${API}/complaints/${encodeURIComponent(id)}`
-        );
-
-
-        const result =
-        await response.json();
-
-
-        if(!response.ok){
-
-            throw new Error(
-                result.error ||
-                "Complaint not found."
-            );
-
-        }
-
-
-        const complaint =
-        result.complaint ||
-        result;
-
-
-        showComplaint(
-            complaint
-        );
-
-
-    }
-    catch(error){
-
-        resultBox.innerHTML = `
-            <div class="empty">
-                ❌ Complaint not found.
-            </div>
-        `;
-
-    }
-
-}
-
-
-
-/* ==========================================
-   SHOW TRACKING
-========================================== */
-
-function showComplaint(complaint){
-
-    const resultBox =
-    document
-    .getElementById("trackResult");
-
-
-    const steps = [
-
-        "Reported",
-
-        "Assigned",
-
-        "In Progress",
-
-        "Resolved"
-
-    ];
-
-
-    const current =
-    steps.indexOf(
-        complaint.status
-    );
-
-
-    resultBox.innerHTML = `
-
-        <div
-        style="
-            margin-top:25px;
-            border-top:1px solid #e5e7eb;
-            padding-top:20px;
-        ">
-
-            <h3>
-                ${escapeHTML(
-                    complaint.id
-                )}
-            </h3>
-
-
-            <p
-            style="
-                margin-top:8px;
-                line-height:1.7;
-            ">
-
-                <b>
-                    ${escapeHTML(
-                        complaint.issue ||
-                        complaint.category ||
-                        "Civic Issue"
-                    )}
-                </b>
-
-                <br>
-
-                ${escapeHTML(
-                    complaint.department ||
-                    "Civic Administration"
-                )}
-
-            </p>
-
-
-            <p
-            style="
-                margin-top:10px;
-            ">
-
-                Priority:
-
-                <b class="${
-                    priorityClass(
-                        complaint.priority
-                    )
-                }">
-
-                    ${escapeHTML(
-                        complaint.priority ||
-                        "Medium"
-                    )}
-
-                    ${
-                        complaint.score != null
-                        ? `(${complaint.score}/100)`
-                        : ""
-                    }
-
-                </b>
-
-            </p>
-
-
-            <div class="timeline">
-
-                ${steps.map(
-                    (step,index)=>`
-
-                    <div
-                    class="step ${
-                        index <= current
-                        ? "done"
-                        : ""
-                    }">
-
-                        ${
-                            index <= current
-                            ? "✓"
-                            : "○"
-                        }
-
-                        <br>
-
-                        <small>
-                            ${step}
-                        </small>
-
-                    </div>
-
-                `).join("")}
-
-            </div>
-
-
-            <div class="track-info">
-
-                ${
-                    complaint.location
-                    ? `📍 Location:
-                    ${escapeHTML(
-                        formatLocation(
-                            complaint.location
-                        )
-                    )}`
-                    : ""
-                }
-
-                <br>
-
-                🏛️ Department:
-                ${escapeHTML(
-                    complaint.department ||
-                    "Not assigned"
-                )}
-
-            </div>
-
+        <div class="ticket-no">Ticket #${r.id} • Reporter: ${escapeHTML(r.reporter_name || 'Anonymous')} (${escapeHTML(r.reporter_email || 'N/A')})</div>
+        <p class="card-meta">📍 ${escapeHTML(r.location)}</p>
+        <p class="card-desc">${escapeHTML(r.description)}</p>
+        <div class="card-actions">
+          <button class="btn secondary" style="padding: 8px 14px; font-size: 12px;" onclick="updateStatus(${r.id}, 'In Progress')">In Progress ⏳</button>
+          <button class="btn success" style="padding: 8px 14px; font-size: 12px;" onclick="openResolveModal(${r.id})">Resolve 🎉</button>
+          <button class="btn danger" style="padding: 8px 14px; font-size: 12px;" onclick="deleteReport(${r.id})">Delete 🗑️</button>
         </div>
-
-    `;
-
-}
-
-
-
-/* ==========================================
-   DASHBOARD LOAD
-========================================== */
-
-async function loadComplaints(){
-
-    try{
-
-        const response =
-        await fetch(
-            `${API}/complaints`
-        );
-
-
-        const result =
-        await response.json();
-
-
-        if(!response.ok){
-
-            throw new Error(
-                result.error ||
-                "Could not load complaints."
-            );
-
-        }
-
-
-        complaints =
-        result.complaints ||
-        result;
-
-
-        updateStats();
-
-        filterTable();
-
-    }
-    catch(error){
-
-        console.error(error);
-
-        document
-        .getElementById("complaintTable")
-        .innerHTML = `
-
-            <tr>
-
-                <td
-                colspan="6"
-                class="empty">
-
-                    Backend is not connected.
-
-                    <br><br>
-
-                    Start the CivicSense
-                    backend and refresh.
-
-                </td>
-
-            </tr>
-
-        `;
-
-    }
-
-}
-
-
-
-/* ==========================================
-   DASHBOARD STATS
-========================================== */
-
-function updateStats(){
-
-    document
-    .getElementById("total")
-    .textContent =
-    complaints.length;
-
-
-    document
-    .getElementById("pending")
-    .textContent =
-    complaints.filter(
-        c =>
-        c.status === "Reported"
-    ).length;
-
-
-    document
-    .getElementById("urgent")
-    .textContent =
-    complaints.filter(
-        c =>
-        c.priority === "High"
-    ).length;
-
-
-    document
-    .getElementById("resolved")
-    .textContent =
-    complaints.filter(
-        c =>
-        c.status === "Resolved"
-    ).length;
-
-}
-
-
-
-/* ==========================================
-   FILTER TABLE
-========================================== */
-
-function filterTable(){
-
-    const search =
-    document
-    .getElementById("search")
-    .value
-    .toLowerCase();
-
-
-    const department =
-    document
-    .getElementById("departmentFilter")
-    .value;
-
-
-    const status =
-    document
-    .getElementById("statusFilter")
-    .value;
-
-
-    const filtered =
-    complaints.filter(
-        complaint => {
-
-            const text = `
-
-                ${complaint.id || ""}
-
-                ${complaint.issue || ""}
-
-                ${complaint.category || ""}
-
-                ${complaint.department || ""}
-
-            `.toLowerCase();
-
-
-            return (
-
-                (!search ||
-                text.includes(search))
-
-                &&
-
-                (!department ||
-                complaint.department === department)
-
-                &&
-
-                (!status ||
-                complaint.status === status)
-
-            );
-
-        }
-    );
-
-
-    renderTable(filtered);
-
-}
-
-
-
-/* ==========================================
-   RENDER TABLE
-========================================== */
-
-function renderTable(list){
-
-    const table =
-    document
-    .getElementById("complaintTable");
-
-
-    if(!list.length){
-
-        table.innerHTML = `
-
-            <tr>
-
-                <td
-                colspan="6"
-                class="empty">
-
-                    No complaints found.
-
-                </td>
-
-            </tr>
-
-        `;
-
-        return;
-
-    }
-
-
-    table.innerHTML =
-    list.map(
-        complaint => `
-
-        <tr>
-
-            <td>
-                <b>
-                    ${escapeHTML(
-                        complaint.id
-                    )}
-                </b>
-            </td>
-
-
-            <td>
-                ${escapeHTML(
-                    complaint.issue ||
-                    complaint.category ||
-                    "Civic Issue"
-                )}
-            </td>
-
-
-            <td>
-                ${escapeHTML(
-                    complaint.department ||
-                    "Unassigned"
-                )}
-            </td>
-
-
-            <td class="${
-                priorityClass(
-                    complaint.priority
-                )
-            }">
-
-                ${escapeHTML(
-                    complaint.priority ||
-                    "Medium"
-                )}
-
-                ${
-                    complaint.score != null
-                    ? `<br><small>
-                        ${complaint.score}/100
-                       </small>`
-                    : ""
-                }
-
-            </td>
-
-
-            <td>
-
-                <span class="
-                    status
-                    ${statusClass(
-                        complaint.status
-                    )}
-                ">
-
-                    ${escapeHTML(
-                        complaint.status ||
-                        "Reported"
-                    )}
-
-                </span>
-
-            </td>
-
-
-            <td>
-
-                <select
-                onchange="
-                    updateStatus(
-                        '${encodeURIComponent(
-                            complaint.id
-                        )}',
-                        this.value
-                    )
-                ">
-
-                    ${[
-                        "Reported",
-                        "Assigned",
-                        "In Progress",
-                        "Resolved"
-                    ].map(
-                        status => `
-
-                        <option
-                        ${
-                            complaint.status === status
-                            ? "selected"
-                            : ""
-                        }>
-
-                            ${status}
-
-                        </option>
-
-                    `).join("")}
-
-                </select>
-
-            </td>
-
-        </tr>
-
-    `).join("");
-
-}
-
-
-
-/* ==========================================
-   UPDATE STATUS
-========================================== */
-
-async function updateStatus(
-    encodedId,
-    status
-){
-
-    const id =
-    decodeURIComponent(
-        encodedId
-    );
-
-
-    try{
-
-        const response =
-        await fetch(
-            `${API}/complaints/${
-                encodeURIComponent(id)
-            }/status`,
-            {
-
-                method:"PATCH",
-
-                headers:{
-                    "Content-Type":
-                    "application/json"
-                },
-
-                body:JSON.stringify({
-                    status
-                })
-
-            }
-        );
-
-
-        const result =
-        await response.json();
-
-
-        if(!response.ok){
-
-            throw new Error(
-                result.error ||
-                "Status update failed."
-            );
-
-        }
-
-
-        toast(
-            `${id} → ${status}`
-        );
-
-
-        await loadComplaints();
-
-    }
-    catch(error){
-
-        console.error(error);
-
-        toast(
-            "Could not update status."
-        );
-
-    }
-
-}
-
-
-
-/* ==========================================
-   HELPERS
-========================================== */
-
-function statusClass(status){
-
-    if(status === "Resolved")
-        return "status-resolved";
-
-    if(status === "In Progress")
-        return "status-progress";
-
-    if(status === "Assigned")
-        return "status-assigned";
-
-    return "status-reported";
-
-}
-
-
-function priorityClass(priority){
-
-    if(priority === "High")
-        return "priority-high";
-
-    if(priority === "Low")
-        return "priority-low";
-
-    return "priority-medium";
-
-}
-
-
-function formatLocation(location){
-
-    if(typeof location === "string")
-        return location;
-
-    if(
-        location &&
-        location.latitude != null &&
-        location.longitude != null
-    ){
-
-        return `${location.latitude},
-                ${location.longitude}`;
-
-    }
-
-    return "Not captured";
-
-}
-
-
-function escapeHTML(value){
-
-    if(value == null)
-        return "";
-
-    return String(value)
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-
-}
-
-
-
-/* ==========================================
-   START
-========================================== */
-
-loadComplaints();
-
+      `;
+      list.appendChild(card);
+    });
+  }
+
+  function openResolveModal(id) {
+    resolvingTicketId = id;
+    document.getElementById("resolvePhotoUrl").value = "";
+    document.getElementById("resolveModal").classList.remove("hidden");
+  }
+
+  function closeResolveModal() {
+    resolvingTicketId = null;
+    document.getElementById("resolveModal").classList.add("hidden");
+  }
+
+  async function confirmResolve() {
+    if (!resolvingTicketId) return;
+    const photoUrl = document.getElementById("resolvePhotoUrl").value.trim();
+
+    const payload = { status: 'Resolved' };
+    if (photoUrl) payload.resolved_photo_url = photoUrl;
+
+    const { error } = await db.from('reports').update(payload).eq('id', resolvingTicketId);
+
+    if (error) { toast("Failed to resolve ticket!"); return; }
+
+    userPoints += 15;
+    savePoints();
+    closeResolveModal();
+    await loadReports();
+    renderAdminDesk();
+    toast("Status set to Resolved! 🎉");
+  }
+
+  function exportDataJSON() {
+    if (!reports.length) { toast("No data to export!"); return; }
+    const blob = new Blob([JSON.stringify(reports, null, 2)], { type: "application/json" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "civic_reports.json";
+    link.click();
+    toast("Exported JSON! 📄");
+  }
+
+  function exportDataCSV() {
+    if (!reports.length) { toast("No report data to export!"); return; }
+    const headers = ["ID", "Name", "Email", "Category", "Description", "Location", "Latitude", "Longitude", "Urgency", "Status", "Upvotes", "Date"];
+    const rows = reports.map(r => [
+      r.id,
+      `"${(r.reporter_name || '').replace(/"/g, '""')}"`,
+      `"${(r.reporter_email || '').replace(/"/g, '""')}"`,
+      `"${(r.category || '').replace(/"/g, '""')}"`,
+      `"${(r.description || '').replace(/"/g, '""')}"`,
+      `"${(r.location || '').replace(/"/g, '""')}"`,
+      r.lat || '',
+      r.lng || '',
+      r.urgency || '',
+      r.status || '',
+      r.upvotes || 0,
+      `"${r.created_at ? new Date(r.created_at).toLocaleDateString() : ''}"`
+    ]);
+
+    const csvContent = "\uFEFF" + [headers.join(","), ...rows.map(e => e.join(","))].join("\n");
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "civic_reports_data.csv";
+    link.click();
+    toast("Exported CSV! 📊");
+  }
+
+  async function upvote(id) {
+    const r = reports.find(item => item.id === id);
+    if (!r) return;
+    const { error } = await db.from('reports').update({ upvotes: r.upvotes + 1 }).eq('id', id);
+    if (error) { console.error(error); toast("Upvote failed: " + (error.message || JSON.stringify(error))); return; }
+    await loadReports();
+    renderFeed();
+  }
+
+  async function updateStatus(id, newStatus) {
+    const { error } = await db.from('reports').update({ status: newStatus }).eq('id', id);
+
+    if (error) { toast("Update failed!"); return; }
+
+    await loadReports();
+    renderAdminDesk();
+    toast(`Status set to ${newStatus}! ✨`);
+  }
+
+  async function deleteReport(id) {
+    if (!confirm("Are you sure you want to remove this report?")) return;
+    const { error } = await db.from('reports').delete().eq('id', id);
+    if (error) { toast("Delete failed!"); return; }
+    await loadReports();
+    renderAdminDesk();
+    toast("Report removed! 🗑️");
+  }
+
+  function updateMetrics() {
+    document.getElementById("statTotal").innerText = reports.length;
+    document.getElementById("statCritical").innerText = reports.filter(r => r.urgency === "CRITICAL").length;
+    document.getElementById("statPending").innerText = reports.filter(r => r.status === "Pending").length;
+    document.getElementById("statResolved").innerText = reports.filter(r => r.status === "Resolved").length;
+  }
+
+  function updateUserBadge() {
+    const badgeEl = document.getElementById("badgeTitle");
+    if (userPoints >= 100) { badgeEl.innerText = "👑 City Legend"; }
+    else if (userPoints >= 50) { badgeEl.innerText = "🛡️ Local Hero"; }
+    else if (userPoints >= 20) { badgeEl.innerText = "⭐ Scout"; }
+    else { badgeEl.innerText = "🌱 Novice"; }
+  }
+
+  function savePoints() {
+    localStorage.setItem("civic_v2_points", userPoints.toString());
+    document.getElementById("userPoints").innerText = userPoints;
+    updateUserBadge();
+  }
+
+  function toast(msg) {
+    const t = document.getElementById("toast");
+    t.innerHTML = msg;
+    t.style.display = "block";
+    setTimeout(() => t.style.display = "none", 2800);
+  }
+
+  function escapeHTML(str){
+    return String(str).replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#039;'}[m]));
+  }
 </script>
-
 </body>
 </html>
